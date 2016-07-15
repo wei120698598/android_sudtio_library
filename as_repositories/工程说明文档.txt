@@ -1,3 +1,5 @@
+添加工具库时大的类别最好新建module，相同的类别一定要新建包，主要类和方法加注释，最好写有测试页面并在测试页面注释好所测试内容
+
 1.as_app_demo   主要用来书写测试界面
 2.as_lib_CustomerUtils  主要用来存放常用工具类，例如log打印
 3.as_lib_CustomerView   主要用来存放自定义View或者layout,封装好的控件...
