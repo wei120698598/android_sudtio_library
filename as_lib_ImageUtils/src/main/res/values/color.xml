@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffffff</color>
+
+    <color name="title_bg">#ff208fea</color>
+    <color name="bg3">#fff0f0f6</color>
+    <color name="albumback">#ffE1E0DE</color>
+    <color name="black1">#ff464646</color>
+    <color name="tv_title">#ffffffff</color>
+    <color name="black2">#ffa9a9a9</color>
+    <color name="black3">#fff6f6f6</color>
+    <color name="black4">#ffeeeeee</color>
+    <color name="blue1">#ff208fea</color>
+    <color name="list_press">#ffeeeeee</color>
+    <color name="none_color">#00000000</color>
+    <color name="blue4">#ff81c6ff</color>
+    <color name="divide">#ffdddddd</color>
+</resources>
