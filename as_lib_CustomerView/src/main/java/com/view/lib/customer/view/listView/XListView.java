@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.utils.lib.ui.CommonUtils;
 import com.utils.lib.ui.DensityUtil;
+import com.view.lib.R;
 
 
 public class XListView extends ListView implements OnScrollListener {
