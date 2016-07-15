@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.view.lib.R;
 
 
 public class XListViewFooter extends LinearLayout {

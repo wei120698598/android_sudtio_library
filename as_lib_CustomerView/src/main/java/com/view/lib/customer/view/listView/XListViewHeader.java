@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.view.lib.R;
+
 
 public class XListViewHeader extends LinearLayout {
 	private LinearLayout mContainer;

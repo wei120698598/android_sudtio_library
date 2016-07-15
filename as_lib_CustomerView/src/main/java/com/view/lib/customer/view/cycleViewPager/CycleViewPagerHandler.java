@@ -12,4 +12,4 @@ public class CycleViewPagerHandler extends Handler {
 	public CycleViewPagerHandler(Context context) {
 		this.context = context;
 	}
-};
+}
