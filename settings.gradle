@@ -1,1 +1,1 @@
-include ':as_app'
+include ':as_app', ':as_lib_ImageUtils', ':as_lib_CustomerView', ':as_lib_CustomerUtils'

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主界面头像条 -->
+    <dimen name="main_maginTop">44dp</dimen>
+    <dimen name="title">19.2sp</dimen>
+    <dimen name="ui_10_dip">10dp</dimen>
+</resources>

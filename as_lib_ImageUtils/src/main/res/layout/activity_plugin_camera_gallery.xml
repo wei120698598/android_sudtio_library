@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/headview"
+        layout="@layout/layout_title" />
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_maginTop"
+        android:layout_alignParentBottom="true"
+        android:background="@color/title_bg" >
+
+        <TextView
+            android:id="@+id/gallery_del"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_black3_black2_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/btn_blue1_black1_text"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_selecter"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/unfinished"
+            android:textColor="@color/btn_white_black2_text"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <com.image.lib.select_pic.zoom.ViewPagerFixed
+        android:id="@+id/gallery01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_layout"
+        android:layout_below="@id/headview"
+        android:layout_centerHorizontal="true"
+        android:background="@color/black1"
+        android:unselectedAlpha="1" />
+
+</RelativeLayout>

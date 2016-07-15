@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_maginTop"
+    android:background="@color/title_bg" >
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="@dimen/main_maginTop"
+        android:layout_height="@dimen/main_maginTop"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="1px"
+        android:background="@drawable/title_btn_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/title_btn_back" />
+
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="1px"
+        android:layout_toRightOf="@id/iv_back"
+        android:background="@drawable/title_btn_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:minWidth="@dimen/main_maginTop"
+        android:text="关闭"
+        android:textColor="@color/btn_white_blue4_text"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="1px"
+        android:singleLine="true"
+        android:textColor="@color/tv_title"
+        android:textSize="@dimen/title" />
+
+    <ImageView
+        android:id="@+id/iv_menu"
+        android:layout_width="@dimen/main_maginTop"
+        android:layout_height="@dimen/main_maginTop"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="1px"
+        android:background="@drawable/title_btn_bg"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="1px"
+        android:background="@drawable/title_btn_bg"
+        android:gravity="center"
+        android:minWidth="@dimen/main_maginTop"
+        android:padding="10dp"
+        android:text="菜单"
+        android:textColor="@color/btn_white_blue4_text"
+        android:visibility="gone" />
+
+</RelativeLayout>
