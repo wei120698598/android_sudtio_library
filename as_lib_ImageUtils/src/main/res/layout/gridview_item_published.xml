@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/item_grida_image"
+        android:layout_width="81dp"
+        android:layout_height="81dp"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/iv_del1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/item_grida_image"
+        android:src="@drawable/skyblue_editpage_image_remove"
+        android:visibility="gone" />
+</RelativeLayout>
