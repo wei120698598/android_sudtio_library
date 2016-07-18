@@ -30,23 +30,23 @@ public class SelectPhotoPop {
     private PopupWindow pop;
     private LinearLayout ll_popup;
     public static Uri photoUri;
-    public final static int TAKE_PICTURE = 0x000001;
 
     public static final int CUSTOMER_ALUM = 1;
     public static final int NATIVE_ALUM = 0;
 
     /**
      * 初始化popupWindow
+     *
      * @param context
      * @param alum_type 传递CUSTOMER_ALUM = 1使用自定义图片选择器并可同时选择多张，传递NATIVE_ALUM调用系统图片选择器只能一次选一张
-     * @param clazz
      */
-    public SelectPhotoPop(final Context context, final int alum_type, Class clazz) {
+    public SelectPhotoPop(final Context context, final int alum_type,Class clazz) {
         initPop(context, alum_type, clazz);
     }
 
     /**
      * 初始化图片选器
+     *
      * @param context
      * @param flag
      * @param clazz
@@ -179,14 +179,18 @@ public class SelectPhotoPop {
 
     /**
      * 显示图片选择器在parentView底部
-     * @param context
-     * @param parentView
+     *
+     * @param activity
      */
-    public void showPop(Context context, View parentView) {
-        ll_popup.startAnimation(AnimationUtils.loadAnimation(context, R.anim.activity_translate_in));
-        pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
+    public void showPop(Activity activity) {
+        ll_popup.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.activity_translate_in));
+        pop.showAtLocation(activity.getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
     }
 
-    public String photoTakePath;
-
+    /**
+     * 关闭页面时要及时清空图片缓存
+     */
+    public void clearBitmap(){
+        Bimp.clearCache();
+    }
 }
