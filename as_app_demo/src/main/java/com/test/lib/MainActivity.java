@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         textList.add("图片选择呵呵呵呵呵呵呵呵呵哈哈哈哈呵呵");
+        textList.add("图片选择呵呵呵呵呵呵呵呵呵哈哈哈哈呵呵");
+
 
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, textList));
