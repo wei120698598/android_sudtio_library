@@ -24,10 +24,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
-//    compile 'com.jakewharton:butterknife:8.2.1'
+    //    compile 'com.jakewharton:butterknife:8.2.1'
     compile project(':as_lib_CustomerUtils')
     compile project(':as_lib_CustomerView')
     compile project(':as_lib_DatebaseUtils')
     compile project(':as_lib_ImageUtils')
     compile project(':as_lib_NetWorkUtils')
+
 }

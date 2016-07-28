@@ -6,8 +6,10 @@
 
     <com.view.lib.customer.view.gridView.NoScrollGridView
         android:id="@+id/gridView"
-        android:numColumns="auto_fit"
+        android:numColumns="3"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
         android:layout_height="match_parent" />
 </LinearLayout>

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.image.lib.R;
 import com.image.lib.select_pic.photoview.ImagePicker;
 import com.image.lib.select_pic.ui.ImageFileActivity;
+import com.orhanobut.logger.Logger;
 
 
 public class SelectPhotoPop {
@@ -40,8 +41,8 @@ public class SelectPhotoPop {
      * @param context
      * @param alum_type 传递CUSTOMER_ALUM = 1使用自定义图片选择器并可同时选择多张，传递NATIVE_ALUM调用系统图片选择器只能一次选一张
      */
-    public SelectPhotoPop(final Context context, final int alum_type,Class clazz) {
-        initPop(context, alum_type, clazz);
+    public SelectPhotoPop(final Context context, final int alum_type) {
+        initPop(context, alum_type);
     }
 
     /**
@@ -49,15 +50,15 @@ public class SelectPhotoPop {
      *
      * @param context
      * @param flag
-     * @param clazz
      */
-    private void initPop(final Context context, final int flag, Class clazz) {
+    private void initPop(final Context context, final int flag) {
 
         if (flag == CUSTOMER_ALUM) {
+            Logger.d("初始化了");
             Bimp.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.roominfo_add_btn_normal);
             Bimp.tempSelectBitmap.clear();
             Bimp.max = 0;
-            Bimp.clazz = clazz;
+            Bimp.clazz = context.getClass();
         }
 
         pop = new PopupWindow(context);

@@ -15,7 +15,7 @@ import com.utils.lib.imageUtils.ImageCompressUtils2;
 import com.view.lib.customer.view.gridView.NoScrollGridView;
 
 /**
- * 图片选择测试页面
+ * 图片选择测试页面,需要为此Activity配置singleTask
  * Created by wei on 2016/7/18.
  */
 public class SelectPicActivity extends AppCompatActivity {
@@ -31,7 +31,7 @@ public class SelectPicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_pic);
 //        ButterKnife.bind(this);
         gridView = (NoScrollGridView) findViewById(R.id.gridView);
-        selectPhotoPop = new SelectPhotoPop(this, SelectPhotoPop.CUSTOMER_ALUM, SelectPicActivity.class);
+        selectPhotoPop = new SelectPhotoPop(this, SelectPhotoPop.CUSTOMER_ALUM);
         gridAlumAdapter = new GridAlumAdapter(this, gridView, selectPhotoPop);
         gridAlumAdapter.resume();
         gridView.setAdapter(gridAlumAdapter);
@@ -39,9 +39,10 @@ public class SelectPicActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        if (gridAlumAdapter != null)
-            gridAlumAdapter.resume();
         super.onResume();
+        if (gridAlumAdapter != null){
+            gridAlumAdapter.resume();
+        }
     }
 
     @Override

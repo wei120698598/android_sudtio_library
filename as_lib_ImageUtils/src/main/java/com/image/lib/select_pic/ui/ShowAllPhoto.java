@@ -22,6 +22,7 @@ import com.image.lib.select_pic.Bimp;
 import com.image.lib.select_pic.ImageItem;
 import com.image.lib.select_pic.photoview.AlbumGridViewAdapter;
 import com.image.lib.select_pic.photoview.PublicWay;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
@@ -96,7 +97,7 @@ public class ShowAllPhoto extends Activity {
 			if (Bimp.tempSelectBitmap.size() + tempList.size() > 0) {
 				intent.putExtra("position", "2");
 				intent.putExtra("ID", 0);
-				intent.setClass(ShowAllPhoto.this, com.image.lib.select_pic.ui.GalleryActivity.class);
+				intent.setClass(ShowAllPhoto.this, GalleryActivity.class);
 				startActivity(intent);
 			}
 		}
@@ -177,6 +178,9 @@ public class ShowAllPhoto extends Activity {
 				okButton.setClickable(false);
 				Bimp.tempSelectBitmap.addAll(tempList);
 				Bimp.max += tempList.size();
+
+				Logger.d(tempList.size()+"=="+Bimp.tempSelectBitmap.size());
+
 				tempList.clear();
 				intent.setClass(context,Bimp.clazz);
 				startActivity(intent);
