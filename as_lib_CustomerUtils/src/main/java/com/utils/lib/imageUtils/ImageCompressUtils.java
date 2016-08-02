@@ -1,7 +1,6 @@
 package com.utils.lib.imageUtils;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -128,8 +127,15 @@ public class ImageCompressUtils {
 		return returnBitmap;
 	}
 
-	private static ProgressDialog pDialog;
 
+	/**
+	 * 根据图片质量来压缩图片
+	 * @param context
+	 * @param bitmap
+	 * @param maxSize
+	 * @param path
+     * @return
+     */
 	public static Bitmap compressByQuality(final Context context, Bitmap bitmap, int maxSize, String path) {
 
 		try {
@@ -285,6 +291,11 @@ public class ImageCompressUtils {
 		return bitmap;
 	}
 
+	/**
+	 * 获取灰度图像
+	 * @param bmSrc
+	 * @return
+     */
 	public static Bitmap bitmap2Gray(Bitmap bmSrc) {
 		// 得到图片的长和宽
 		int width = bmSrc.getWidth();
@@ -303,6 +314,11 @@ public class ImageCompressUtils {
 		return bmpGray;
 	}
 
+	/**
+	 * 获取线性灰度图像
+	 * @param image
+	 * @return
+     */
 	public static Bitmap lineGrey(Bitmap image) {
 		// 得到图像的宽度和长度
 		int width = image.getWidth();
@@ -344,7 +360,10 @@ public class ImageCompressUtils {
 		return linegray;
 	}
 
-	// 该函数实现对图像进行二值化处理
+	/**
+	 *该函数实现对图像进行二值化处理
+ 	 */
+
 	public static Bitmap gray2Binary(Bitmap graymap) {
 		// 得到图形的宽度和长度
 		int width = graymap.getWidth();
@@ -429,6 +448,13 @@ public class ImageCompressUtils {
 		return baos.toByteArray();
 	}
 
+	/**
+	 * 从文件中获取bitmap
+	 * @param dst
+	 * @param width
+	 * @param height
+     * @return
+     */
 	public Bitmap getBitmapFromFile(File dst, int width, int height) {
 		if (null != dst && dst.exists()) {
 			BitmapFactory.Options opts = null;
@@ -452,7 +478,7 @@ public class ImageCompressUtils {
 		return null;
 	}
 
-	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
+	private static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
 		int initialSize = computeInitialSampleSize(options, minSideLength, maxNumOfPixels);
 
 		int roundedSize;

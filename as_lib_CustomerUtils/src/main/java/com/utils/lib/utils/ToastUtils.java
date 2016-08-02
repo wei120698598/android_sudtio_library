@@ -25,9 +25,12 @@ public class ToastUtils {
 	private static Toast toast1;
 
 
-
-
-
+	/**
+	 * 显示toast
+	 * @param context
+	 * @param msg
+	 * @return
+     */
 	public static Toast showToast(final Context context, final String msg) {
 		try {
 			Handler handler = new Handler(Looper.getMainLooper());

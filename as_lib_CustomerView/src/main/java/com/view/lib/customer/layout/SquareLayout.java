@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+/**
+ * 宽高相等的Layout，继承自RelativeLayout
+ */
 public class SquareLayout extends RelativeLayout {
 	public SquareLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);

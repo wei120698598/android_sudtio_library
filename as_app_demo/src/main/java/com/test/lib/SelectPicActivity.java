@@ -12,7 +12,7 @@ import com.image.lib.select_pic.SelectPhotoPop;
 import com.image.lib.select_pic.photoview.ImagePicker;
 import com.image.lib.select_pic.photoview.PublicWay;
 import com.utils.lib.imageUtils.ImageCompressUtils2;
-import com.view.lib.customer.view.gridView.NoScrollGridView;
+import com.view.lib.customer.view.gridView.NoScrollGridViewClickBlank;
 
 /**
  * 图片选择测试页面,需要为此Activity配置singleTask
@@ -21,7 +21,7 @@ import com.view.lib.customer.view.gridView.NoScrollGridView;
 public class SelectPicActivity extends AppCompatActivity {
 
     //    @BindView(R.id.gridView)
-    NoScrollGridView gridView;
+    NoScrollGridViewClickBlank gridView;
     private SelectPhotoPop selectPhotoPop;
     private GridAlumAdapter gridAlumAdapter;
 
@@ -30,7 +30,7 @@ public class SelectPicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pic);
 //        ButterKnife.bind(this);
-        gridView = (NoScrollGridView) findViewById(R.id.gridView);
+        gridView = (NoScrollGridViewClickBlank) findViewById(R.id.gridView);
         selectPhotoPop = new SelectPhotoPop(this, SelectPhotoPop.CUSTOMER_ALUM);
         gridAlumAdapter = new GridAlumAdapter(this, gridView, selectPhotoPop);
         gridAlumAdapter.resume();

@@ -55,11 +55,21 @@ public class CommonUtils {
 	}
 
 
-
+	/**
+	 * 根据资源ID获取字符串
+	 * @param context
+	 * @param resId
+     * @return
+     */
 	static String getString(Context context, int resId) {
 		return context.getResources().getString(resId);
 	}
 
+	/**
+	 * 判断集合是否为空
+	 * @param list
+	 * @return
+     */
 	public static boolean isEmpty(List list) {
 		try {
 			if (list == null || list.size() == 0) {
@@ -73,6 +83,11 @@ public class CommonUtils {
 		}
 	}
 
+	/**
+	 * 获取当前UI页面
+	 * @param context
+	 * @return
+     */
 	public static String getTopActivity(Context context) {
 		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1);

@@ -33,6 +33,7 @@ public class FileUtils {
      */
     public static String cropPicDirPath;
 
+
     /**
      * 初始化应用常用图片存储路径
      *
@@ -85,6 +86,15 @@ public class FileUtils {
         }
     }
 
+    /**
+     * 保存bitmap到本地
+     *
+     * @param context
+     * @param bm
+     * @param path
+     * @param picName
+     * @return
+     */
     public static String saveBitmap(Context context, Bitmap bm, String path, String picName) {
 
         try {
@@ -121,17 +131,11 @@ public class FileUtils {
         }
     }
 
-    public static File createSDDir(String dirName) throws IOException {
-        File dir = new File(bitmap_cache + dirName);
-        return dir;
-    }
-
-    public static boolean isFileExist(String fileName) {
-        File file = new File(bitmap_cache + fileName);
-        file.isFile();
-        return file.exists();
-    }
-
+    /**
+     * 删除指定文件从bitmap_cache
+     *
+     * @param fileName
+     */
     public static void delFile(String fileName) {
         File file = new File(bitmap_cache + fileName);
         if (file.exists() && file.isFile()) {
@@ -140,6 +144,9 @@ public class FileUtils {
         file.exists();
     }
 
+    /**
+     * 清除bitmap_cache缓存
+     */
     public static void deleteDir() {
         File dir = new File(bitmap_cache);
         if (dir == null || !dir.exists() || !dir.isDirectory())
@@ -154,6 +161,12 @@ public class FileUtils {
         dir.delete();
     }
 
+    /**
+     * 判断文件或者文件夹是否存在
+     *
+     * @param path
+     * @return
+     */
     public static boolean fileIsExists(String path) {
         try {
             File f = new File(path);
@@ -167,10 +180,14 @@ public class FileUtils {
         return true;
     }
 
-    public static File updateDir = null;
-    public static File updateFile = null;
-    public static boolean isCreateFileSucess;
 
+    /**
+     * 创建文件
+     *
+     * @param targetPath
+     * @param targetName
+     * @return
+     */
     public static boolean createFile(String targetPath, String targetName) {
         File filePath = new File(targetPath);
         boolean mkdirs = true;
@@ -185,13 +202,20 @@ public class FileUtils {
         return delete;
     }
 
-    public static void createFile(String app_name) {
+    /**
+     * 创建文件在系统根目录，主要用来升级app使用
+     *
+     * @param app_name
+     */
+    public static boolean createFile(String app_name) {
 
+        File updateDir = null;
+        File updateFile = null;
+        boolean isCreateFileSucess;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             isCreateFileSucess = true;
-
-            updateDir = new File(Environment.getExternalStorageDirectory() + "/wywy/");
-            updateFile = new File(updateDir + "/" + app_name + ".apk");
+            updateDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+            updateFile = new File(updateDir + "/" + app_name);
             if (!updateDir.exists()) {
                 updateDir.mkdirs();
             }
@@ -207,10 +231,11 @@ public class FileUtils {
         } else {
             isCreateFileSucess = false;
         }
+        return isCreateFileSucess;
     }
 
     /**
-     * 复制单个文件,优先使用oldPath
+     * 复制单个文件,优先使用oldPath，在olapath为空时使用oldfile
      *
      * @param oldPath String 原文件路径 如：c:/fqf.txt
      * @param newPath String 复制后路径 如：f:/fqf.txt

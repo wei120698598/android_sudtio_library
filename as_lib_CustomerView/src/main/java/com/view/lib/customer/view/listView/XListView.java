@@ -26,7 +26,10 @@ import com.utils.lib.ui.CommonUtils;
 import com.utils.lib.ui.DensityUtil;
 import com.view.lib.R;
 
-
+/**
+ * 下拉刷新，上拉加载ListView。
+ * 实现自动加载更多，根据最后一页是否有足够pagesize的数据来判断是否加载更多。
+ */
 public class XListView extends ListView implements OnScrollListener {
 
     private float mLastY = -1; // save event y
@@ -51,9 +54,7 @@ public class XListView extends ListView implements OnScrollListener {
     private boolean mEnablePullLoad;
     private boolean mAutoPullLoad = true;
 
-    public void setmAutoPullLoad(boolean mAutoPullLoad) {
-        this.mAutoPullLoad = mAutoPullLoad;
-    }
+
 
     private boolean mPullLoading;
     private boolean mIsFooterReady = false;
@@ -76,10 +77,20 @@ public class XListView extends ListView implements OnScrollListener {
 
     private int pageSize = 10;
 
+    /**
+     * 获取每页数据量
+     *
+     * @return
+     */
     public int getPageSize() {
         return pageSize;
     }
 
+    /**
+     * 设置每页数据量
+     *
+     * @param pageSize
+     */
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
@@ -90,6 +101,14 @@ public class XListView extends ListView implements OnScrollListener {
     public XListView(Context context) {
         super(context);
         initWithContext(context);
+    }
+
+    /**
+     * 设置是否可以自动加载更多
+     * @param mAutoPullLoad
+     */
+    public void setmAutoPullLoad(boolean mAutoPullLoad) {
+        this.mAutoPullLoad = mAutoPullLoad;
     }
 
     public XListView(Context context, AttributeSet attrs) {
@@ -140,7 +159,7 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
-     * enable or disable pull down refresh feature.
+     * 设置是否可以下拉刷新
      *
      * @param enable
      */
@@ -154,7 +173,7 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
-     * enable or disable pull up load more feature.
+     * 设置是否可以上拉加载
      *
      * @param enable
      */
@@ -184,7 +203,7 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
-     * stop refresh, reset header view.
+     * 停止刷新
      */
     public void stopRefresh() {
         if (mPullRefreshing == true) {
@@ -194,7 +213,7 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
-     * stop load more, reset footer view.
+     * 停止加载更多
      */
     public void stopLoadMore() {
         if (mPullLoading == true) {
@@ -204,7 +223,7 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
-     * set last refresh time
+     * 设置最后的刷新时间
      *
      * @param time
      */
@@ -219,6 +238,10 @@ public class XListView extends ListView implements OnScrollListener {
         }
     }
 
+    /**
+     * 将头部恢复
+     * @param delta
+     */
     private void updateHeaderHeight(float delta) {
         mHeaderView.setVisiableHeight((int) delta + mHeaderView.getVisiableHeight());
         if (mEnablePullRefresh && !mPullRefreshing) { // 未处于刷新状态，更新箭头
@@ -232,7 +255,7 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
-     * reset header view's height.
+     * 恢复底部状态
      */
     private void resetHeaderHeight() {
         int height = mHeaderView.getVisiableHeight();
@@ -278,14 +301,20 @@ public class XListView extends ListView implements OnScrollListener {
         }
     }
 
+    /**
+     * 执行手动刷新
+     */
     public void activeRefresh() {
-        mHeaderView.setVisiableHeight(DensityUtil.dip2px(getContext(),60));
+        mHeaderView.setVisiableHeight(DensityUtil.dip2px(getContext(), 60));
         setSelection(0);
         startRefresh();
     }
 
+    /**
+     * 执行手动加载
+     */
     public void activeLoadMore() {
-        mFooterView.setBottomMargin(DensityUtil.dip2px(getContext(),60));
+        mFooterView.setBottomMargin(DensityUtil.dip2px(getContext(), 60));
         setSelection(mTotalItemCount - 1);
         startLoadMore();
     }
@@ -330,7 +359,8 @@ public class XListView extends ListView implements OnScrollListener {
                     // the first item is showing, header has shown or pull down.
                     updateHeaderHeight(deltaY / OFFSET_RADIO);
                     invokeOnScrolling();
-                } else if (mEnablePullLoad && getLastVisiblePosition() == mTotalItemCount - 1 && (mFooterView.getBottomMargin() > 0 || deltaY < 0)
+                }
+                else if (mEnablePullLoad && getLastVisiblePosition() == mTotalItemCount - 1 && (mFooterView.getBottomMargin() > 0 || deltaY < 0)
                         && getLastVisiblePosition() >= pageSize) {
                     // last item, already pulled up or want to pull up.
                     updateFooterHeight(-deltaY / OFFSET_RADIO);
@@ -339,13 +369,15 @@ public class XListView extends ListView implements OnScrollListener {
             default:
                 mLastY = -1; // reset
                 if (getFirstVisiblePosition() == 0) {
-                    // invoke refresh
+                    // 执行刷新
                     if (mEnablePullRefresh && mHeaderView.getVisiableHeight() > mHeaderViewHeight) {
                         startRefresh();
                     }
                     resetHeaderHeight();
-                } else if (getLastVisiblePosition() == mTotalItemCount - 1 && getLastVisiblePosition() >= pageSize) {
-                    // invoke load more.
+                }
+
+                else if (getLastVisiblePosition() == mTotalItemCount - 1 && getLastVisiblePosition() >= pageSize) {
+                    // 执行加载更多
                     if (mEnablePullLoad && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA && !mPullLoading) {
                         startLoadMore();
                     }
@@ -394,6 +426,8 @@ public class XListView extends ListView implements OnScrollListener {
         } else {
             mAutoPullLoad = true;
         }
+
+        // 如果倒数第二项item可见，并且当前数据量要多于页面大小，表示可以加载下一页数据，否则说明数据量不足，不必加载更多
         if (mAutoPullLoad && mEnablePullLoad && !mPullLoading && lastVisiblePosition >= pageSize && lastVisiblePosition == totalItemCount - 2
                 && CommonUtils.isNetWorkConnected(getContext())) {
             startLoadMore();
