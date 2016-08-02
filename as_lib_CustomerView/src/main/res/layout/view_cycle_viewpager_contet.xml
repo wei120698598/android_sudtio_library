@@ -5,7 +5,7 @@
     android:background="#ffffffff"
     android:visibility="gone" >
 
-    <com.view.lib.customer.view.cycleViewPager.BaseViewPager
+    <com.wei.view.customer.view.cycleViewPager.BaseViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.image.lib">
+    package="com.wei.image">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -12,12 +12,12 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity android:name=".select_pic.BitmapCache" />
-        <activity android:name=".select_pic.ui.AlbumActivity" />
-        <activity android:name=".select_pic.ui.GalleryActivity" />
-        <activity android:name=".select_pic.ui.ImageFileActivity" />
-        <activity android:name=".select_pic.ui.ShowAllPhoto" />
-        <activity android:name=".show_pic.image.ImagePagerActivity" />
+        <activity android:name="com.wei.db.image.select_pic.BitmapCache" />
+        <activity android:name="com.wei.db.image.select_pic.ui.AlbumActivity" />
+        <activity android:name="com.wei.db.image.select_pic.ui.GalleryActivity" />
+        <activity android:name="com.wei.db.image.select_pic.ui.ImageFileActivity" />
+        <activity android:name="com.wei.db.image.select_pic.ui.ShowAllPhoto" />
+        <activity android:name="com.wei.db.image.show_pic.image.ImagePagerActivity" />
     </application>
 
 </manifest>

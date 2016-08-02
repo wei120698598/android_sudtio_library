@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.net.lib">
+    package="com.wei.net">
 
     <application
         android:allowBackup="true"

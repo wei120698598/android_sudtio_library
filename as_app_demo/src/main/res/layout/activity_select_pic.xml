@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.view.lib.customer.view.gridView.NoScrollGridViewClickBlank
+    <com.wei.view.customer.view.gridView.NoScrollGridViewClickBlank
         android:id="@+id/gridView"
         android:numColumns="3"
         android:layout_width="match_parent"
