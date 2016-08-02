@@ -11,7 +11,7 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.wei.test.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wei.test.SelectPicActivity"
+            android:name=".SelectPicActivity"
             android:launchMode="singleTask" />
 
     </application>
