@@ -9,7 +9,7 @@ import android.widget.GridView;
 /**
  * 自定义的“九宫格”——用在显示帖子详情的图片集合
  * 实现点击GridView空白区域不中断事件传递,需要调用setOnTouchInvalidPositionListener，并返回true
- * 
+ *
  * @author wei
  */
 public class NoScrollGridViewClickBlank extends GridView {
@@ -45,14 +45,14 @@ public class NoScrollGridViewClickBlank extends GridView {
 		super.onMeasure(widthMeasureSpec, heightSpec);
 	}
 
-	
-	
-	
+
+
+
 	public interface OnTouchInvalidPositionListener {
 		/**
 		 * motionEvent 可使用 MotionEvent.ACTION_DOWN 或者
 		 * MotionEvent.ACTION_UP等来按需要进行判断
-		 * 
+		 *
 		 * @return 是否要终止事件的路由
 		 */
 		boolean onTouchInvalidPosition(int motionEvent);

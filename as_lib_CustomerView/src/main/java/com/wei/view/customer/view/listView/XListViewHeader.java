@@ -53,7 +53,7 @@ public class XListViewHeader extends LinearLayout {
 	}
 
 	private void initView(Context context) {
-		// 初始情况，设置下拉刷新view高度为0
+
 		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.xlistview_header, null);
 		LayoutParams lp = new LayoutParams(LayoutParams.FILL_PARENT, 0);
 		addView(mContainer, lp);

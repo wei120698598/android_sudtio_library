@@ -9,7 +9,6 @@ import android.widget.GridView;
  * 实现在高度为WRAP_CONTENT时，自动测量控件所需高度，使内容显示全
  *
  * @author wei
- *
  */
 public class NoScrollGridViewOnWrap extends GridView {
 

@@ -255,7 +255,9 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
+     *
      * 恢复底部状态
+     *
      */
     private void resetHeaderHeight() {
         int height = mHeaderView.getVisiableHeight();
