@@ -9,9 +9,6 @@ public class TextUtils {
 
     /**
      * 获取不为null的字符串
-     *
-     * @param text
-     * @return
      */
     public static String getTextNotNull(String text) {
         if (text == null) {
@@ -23,9 +20,6 @@ public class TextUtils {
 
     /**
      * 判断字符串是否为空
-     *
-     * @param text
-     * @return
      */
     public static boolean isEmpty(String text) {
         if (text == null || "".equals(text) || text.length() == 0) {
@@ -37,9 +31,6 @@ public class TextUtils {
 
     /**
      * String 转 double
-     *
-     * @param text
-     * @return
      */
     public static double getDouble(String text) {
         try {

@@ -1,9 +1,6 @@
 apply plugin: 'com.android.library'
 
 
-//依赖github和bintary库
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 23
@@ -26,6 +23,9 @@ android {
 }
 
 
+//依赖github和bintary库
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 //生成jar
 task generateSourcesJar(type: Jar) {
@@ -67,7 +67,7 @@ version = '1.0.2' // 指定版本号
 
 def siteUrl = 'https://github.com/wei120698598/android_sudtio_library'   // 项目的主页
 def gitUrl = 'https://github.com/wei120698598/android_sudtio_library.git'   // Git仓库的url
-def gitIssue = 'https://github.com/wei120698598/android_sudtio_library/issues'   // Git仓库的url
+def issueUrl = 'https://github.com/wei120698598/android_sudtio_library/issues'   // Git仓库的url
 
 bintray {
     user = properties.getProperty("bintray.user")
@@ -80,16 +80,17 @@ bintray {
 
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        issueTrackerUrl = gitIssue
+        issueTrackerUrl  = issueUrl
+        publicDownloadNumbers = true
 
         version {
             name = '1.0.2'
-            desc = "android library"
+            desc = "Android Customer View Or Layout"
 //            released = new Date()
             vcsTag = '1.0.2'
+            publish = true
         }
     }
-
     configurations = ['archives']
 }
 

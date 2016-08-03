@@ -18,6 +18,77 @@ android {
     }
 }
 
+//依赖github和bintary库
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+//生成jar
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs //通过from函数指定代码源，这里是默认代码源
+    classifier 'sources'
+}
+
+//生成文档
+task generateJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs //source指定了代码源
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options.encoding = "UTF-8"
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+
+
+//这里dependsOn意为仅当generateJavadocs完成后才开始本task
+task generateJavadocsJar(type: Jar, dependsOn: generateJavadocs) {
+    from generateJavadocs.destinationDir
+    classifier 'javadoc'
+}
+
+
+//为了将你生成的源代码和Javadoc Jar文件添加到Maven中，你需要将task添加到一个archive中
+artifacts {
+    archives generateJavadocsJar
+    archives generateSourcesJar
+}
+
+//license属性，马上就要说到如何选择一个license。license只是声明别人在使用你的代码时的权限，不需要申请，选择之后直接在项目中添加一个相应的LICENSE文件即可。除此之外，
+
+//需要在bintray.properties文件中取值
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+
+group = 'com.wei.image' // 这里需要和真实包名对应，不能随便填写
+version = '1.0.1' // 指定版本号
+
+def siteUrl = 'https://github.com/wei120698598/android_sudtio_library'   // 项目的主页
+def gitUrl = 'https://github.com/wei120698598/android_sudtio_library.git'   // Git仓库的url
+def issueUrl = 'https://github.com/wei120698598/android_sudtio_library/issues'   // Git仓库的url
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    pkg {
+        repo = 'maven'
+        name = 'com.wei.image'
+        licenses = ["Apache-2.0"]
+
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        issueTrackerUrl  = issueUrl
+        publicDownloadNumbers = true
+        version {
+            name = '1.0.1'
+            desc = "Android Customer ImageUtils"
+//            released = new Date()
+            vcsTag = '1.0.1'
+            publish = true
+        }
+    }
+    configurations = ['archives']
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
