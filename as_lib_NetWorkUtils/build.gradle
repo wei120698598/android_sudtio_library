@@ -76,12 +76,14 @@ bintray {
 
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        issueTrackerUrl  = issueUrl
+        issueTrackerUrl = issueUrl
+        publicDownloadNumbers = true
         version {
             name = '1.0.1'
             desc = "Android Customer NetWorkUtils"
 //            released = new Date()
             vcsTag = '1.0.1'
+            publish = true
         }
     }
     configurations = ['archives']
