@@ -15,7 +15,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.2"
     }
     buildTypes {
         release {
@@ -63,7 +63,11 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 
 group = 'com.wei.view' // 这里需要和真实包名对应，不能随便填写
-version = '1.0.1' // 指定版本号
+version = '1.0.2' // 指定版本号
+
+def siteUrl = 'https://github.com/wei120698598/android_sudtio_library'   // 项目的主页
+def gitUrl = 'https://github.com/wei120698598/android_sudtio_library.git'   // Git仓库的url
+def gitIssue = 'https://github.com/wei120698598/android_sudtio_library/issues'   // Git仓库的url
 
 bintray {
     user = properties.getProperty("bintray.user")
@@ -72,12 +76,17 @@ bintray {
     pkg {
         repo = 'maven'
         name = 'com.wei.view'
+        licenses = ["Apache-2.0"]
+
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        issueTrackerUrl = gitIssue
 
         version {
-            name = '1.0.1'
-            desc = "decent banner"
-            released = new Date()
-            vcsTag = '1.0.1'
+            name = '1.0.2'
+            desc = "android library"
+//            released = new Date()
+            vcsTag = '1.0.2'
         }
     }
 
