@@ -64,7 +64,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 
 group = 'com.wei.view' // 这里需要和真实包名对应，不能随便填写
-version = '1.0.2' // 指定版本号
+version = '1.0.3' // 指定版本号
 
 def siteUrl = 'https://github.com/wei120698598/android_sudtio_library'   // 项目的主页
 def gitUrl = 'https://github.com/wei120698598/android_sudtio_library.git'   // Git仓库的url
@@ -121,10 +121,10 @@ bintray {
         publicDownloadNumbers = true
 
         version {
-            name = '1.0.2'
+            name = '1.0.3'
             desc = desc
 //            released = new Date()
-            vcsTag = '1.0.2'
+            vcsTag = '1.0.3'
             publish = true
         }
     }

@@ -8,7 +8,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.2"
     }
     buildTypes {
         release {
@@ -66,7 +66,7 @@ def desc = 'Android Customer NetWorkUtils'   // Git仓库的url
 
 
 group = 'com.wei.net' // 这里需要和真实包名对应，不能随便填写
-version = '1.0.1' // 指定版本号
+version = '1.0.2' // 指定版本号
 
 
 install {
@@ -118,10 +118,10 @@ bintray {
         issueTrackerUrl = issueUrl
         publicDownloadNumbers = true
         version {
-            name = '1.0.1'
+            name = '1.0.2'
             desc =  desc
-            released = new Date()
-            vcsTag = '1.0.1'
+//            released = new Date()
+            vcsTag = '1.0.2'
             publish = true
         }
     }
