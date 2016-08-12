@@ -3,7 +3,7 @@
 
 Please ensure that you are using the latest version by [checking here](https://bintray.com/bintray/jcenter)
 
-android_sudtio_library 里面主要集成了在Android App开发过程中常用的工具类、自定义view、联网、数据操作等工具<br>
+android_sudtio_library 里面主要集成了在Android App开发过程中常用的工具类、自定义view、联网、数据操作等工具，
 这样在开发过个app的时候，可以有效避免浪费不必要的时间，以及去到处搜索常用的控件等，方便开发，节省时间，自己不必再造轮子。<br>
 工具中的类或实现效果可以通过源代码进行稍加更改变成自己想要的。如果有更好的实现方法，多多提交。<br>
 这个工具库中有一部分借鉴了各位大牛写的代码以及开源的库，在此对各位大牛表示感谢。也希望各位大神多提意见，贡献自己的代码，大家共同进步。<br>
