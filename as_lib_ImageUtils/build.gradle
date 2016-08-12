@@ -28,6 +28,7 @@ task generateSourcesJar(type: Jar) {
     classifier 'sources'
 }
 
+
 //生成文档
 task generateJavadocs(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs //source指定了代码源
