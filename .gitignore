@@ -8,6 +8,5 @@
 /captures
 /.idea
 /*.iml
-/backup
-as_lib_DatebaseUtils/src/main/java/
+backup/
 testapplication/
