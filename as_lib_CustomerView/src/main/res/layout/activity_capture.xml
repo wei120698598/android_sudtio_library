@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.wywy.wywy.sdk.qr.ViewfinderView
+    <com.wei.view.customer.zxing.view.ViewfinderView
         android:id="@+id/viewfinder_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

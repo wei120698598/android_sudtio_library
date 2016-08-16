@@ -21,10 +21,14 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.wei.image.R;
+import com.wei.image.imageUtils.FileUtils;
 import com.wei.image.select_pic.photoview.ImagePicker;
 import com.wei.image.select_pic.ui.ImageFileActivity;
-import com.orhanobut.logger.Logger;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 
 public class SelectPhotoPop {
@@ -43,7 +47,9 @@ public class SelectPhotoPop {
      */
     public SelectPhotoPop(final Context context, final int alum_type) {
         initPop(context, alum_type);
+        FileUtils.initCacheDir(context);
     }
+
 
     /**
      * 初始化图片选器

@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wei.utils.imageUtils;
+package com.wei.image.imageUtils;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;

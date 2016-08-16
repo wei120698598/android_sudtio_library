@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import com.wei.image.R;
 import com.wei.image.select_pic.photoview.PublicWay;
 import com.wei.image.select_pic.ui.GalleryActivity;
-import com.wei.utils.imageUtils.ImageUtils;
+import com.wei.image.imageUtils.ImageUtils;
 import com.wei.utils.utils.HideSoftKeyBoard;
 
 

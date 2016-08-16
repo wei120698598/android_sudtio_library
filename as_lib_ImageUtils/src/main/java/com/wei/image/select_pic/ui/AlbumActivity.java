@@ -106,7 +106,7 @@ public class AlbumActivity extends Activity {
 			intent.setClass(context, Bimp.clazz);
 			startActivity(intent);
 			finish();
-
+			PublicWay.finishActivity();
 		}
 
 	}
@@ -124,8 +124,9 @@ public class AlbumActivity extends Activity {
 	private class CancelListener implements OnClickListener {
 		public void onClick(View v) {
 			Bimp.tempSelectBitmap.clear();
-			startActivity(intent);
 			intent.setClass(context, Bimp.clazz);
+			startActivity(intent);
+			PublicWay.finishActivity();
 		}
 	}
 

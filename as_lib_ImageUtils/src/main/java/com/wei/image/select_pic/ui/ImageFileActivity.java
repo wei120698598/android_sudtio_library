@@ -109,9 +109,8 @@ public class ImageFileActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			ShowAllPhoto.tempList.clear();
-			Intent intent = new Intent();
-			intent.setClass(context, Bimp.clazz);
-			startActivity(intent);
+
+			startActivity(new Intent(context, Bimp.clazz));
 			PublicWay.finishActivity();
 		}
 

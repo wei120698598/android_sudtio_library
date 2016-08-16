@@ -21,7 +21,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textList.add("图片选择");
+        textList.add("自定义相册图片选择");
+        textList.add("系统原生相册图片选择");
+        textList.add("二维码扫描");
 
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, textList));
@@ -33,7 +35,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String text = textList.get(position);
 
         if (text.equals(textList.get(0))) {//图片选择，单张或者多张图片选择
-            startActivity(new Intent(this, SelectPicActivity.class));
+            startActivity(new Intent(this, SelectPicCustomerActivity.class));
+        }else if(text.equals(textList.get(1))){
+            startActivity(new Intent(this, SelectPicNativeActivity.class));
+        } else if (text.equals(textList.get(2))) {
+            startActivity(new Intent(this, ScanQrActivity.class));
         }
     }
 }

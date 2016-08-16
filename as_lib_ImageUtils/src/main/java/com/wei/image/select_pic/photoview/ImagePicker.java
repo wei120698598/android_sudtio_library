@@ -17,11 +17,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.wei.image.R;
-import com.wei.image.select_pic.utils.SampleSizeUtil;
+import com.wei.image.goonear.crop.CropImage;
+import com.wei.image.imageUtils.FileUtils;
+import com.wei.image.imageUtils.ImageUtils;
+import com.wei.image.imageUtils.SampleSizeUtil;
+import com.wei.utils.utils.TextUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 图片选取 Created by dudc on 14-5-14.
@@ -34,6 +36,7 @@ public class ImagePicker {
     public static final int PHOTO_CAMERA_CODE = 2;// 拍照
     public static final int PHOTO_CROP_CODE = 3;// 剪切
     public static final int PHOTO_ALBUM_KITKAT_CODE = 11;// 本地
+    public static String cropPicPath = FileUtils.cropPicDirPath+ "tempCropPic.png";
 
     /**
      * 拍照
@@ -50,7 +53,7 @@ public class ImagePicker {
             file2.mkdirs();
         }
         if (state.equals(Environment.MEDIA_MOUNTED)) {
-            File photoTakeFile = new File(defaultPhotoDir + getCreatePhotoFileName(File.pathSeparator + "IMG"));
+            File photoTakeFile = new File(defaultPhotoDir + ImageUtils.getCreatePhotoFileName(File.pathSeparator + "IMG"));
             if (!photoTakeFile.exists()) {
                 try {
                     photoTakeFile.createNewFile();
@@ -70,13 +73,6 @@ public class ImagePicker {
         }
         return null;
     }
-
-    public static String getCreatePhotoFileName(String startStr) {
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("'" + startStr + "'_yyyyMMdd_HHmmss");
-        return dateFormat.format(date) + ".jpeg";
-    }
-
 
     /**
      * 相册
@@ -118,7 +114,7 @@ public class ImagePicker {
 			 * "filePath = " + filePath); if (null != filePath &&
 			 * !"".equals(filePath.trim())) { try { String newpath = new
 			 * String(filePath.getBytes(), "UTF-8");
-			 * 
+			 *
 			 * BitmapFactory.Options option = new BitmapFactory.Options();
 			 * option.inJustDecodeBounds = true;
 			 * BitmapFactory.decodeFile(newpath, option); option.inSampleSize =
@@ -126,17 +122,17 @@ public class ImagePicker {
 			 * option.inJustDecodeBounds = false; Bitmap bitmap =
 			 * BitmapFactory.decodeFile(newpath, option); if (bitmap != null)
 			 * return bitmap;
-			 * 
+			 *
 			 * } catch (OutOfMemoryError error) { error.printStackTrace(); }
 			 * catch (UnsupportedEncodingException e) { e.printStackTrace(); }
 			 * catch (Exception e) { e.printStackTrace(); }
-			 * 
-			 * 
+			 *
+			 *
 			 * } else { Log.v(TAG, "filePath is null"); }
 			 */
             Uri uri;
-			/*
-			 * if ( requestCode == PHOTO_ALBUM_KITKAT_CODE){ Uri selectedImage =
+            /*
+             * if ( requestCode == PHOTO_ALBUM_KITKAT_CODE){ Uri selectedImage =
 			 * data.getData(); String imagePath = getPath(activity,
 			 * selectedImage); //获取图片的绝对路径 uri = Uri.parse("file:///" +
 			 * imagePath); //将绝对路径转换为URL }else{ uri = data.getData(); }
@@ -182,9 +178,9 @@ public class ImagePicker {
 			 * cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 			 * cursor.moveToFirst(); String path =
 			 * cursor.getString(colunm_index);
-			 * 
+			 *
 			 * String newpath = new String(path.getBytes(), "UTF-8");
-			 * 
+			 *
 			 * try { BitmapFactory.Options option = new BitmapFactory.Options();
 			 * option.inJustDecodeBounds = true;
 			 * BitmapFactory.decodeFile(newpath, option); option.inSampleSize =
@@ -231,83 +227,100 @@ public class ImagePicker {
      *
      * @param uri
      */
-    public static void startPhotoZoom(Activity activity, Uri uri) {
-
-        Intent intent = new Intent("com.android.camera.action.CROP");
+    public static void startPhotoZoom(Activity activity, Uri uri, float aspectX, float aspectY, int outputX, int outputY, String path) {
+//		Intent intent = new Intent("com.android.camera.action.CROP");
+//		Intent intent = new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(activity, CropImage.class);
         intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
+        try {
+            boolean createNewFile = true;
+            createNewFile = FileUtils.createFile(FileUtils.cropPicDirPath, "tempCropPic.png");
+            if (createNewFile) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(TextUtils.isEmpty(path) ? cropPicPath : path)));
+                intent.putExtra("crop", "true");
+                intent.putExtra("aspectX", aspectX);
+                intent.putExtra("aspectY", aspectY);
+                intent.putExtra("outputX", outputX);
+                intent.putExtra("outputY", outputY);
+                intent.putExtra("noFaceDetection", true);
+                intent.putExtra("return-data", false);
+                intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+                activity.startActivityForResult(intent, PHOTO_CROP_CODE);
+            } else {
+                Toast.makeText(activity, "创建缓存图片失败", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(activity,"裁剪图片失败",Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 120);
-        intent.putExtra("outputY", 120);
-        intent.putExtra("return-data", true);
-        activity.startActivityForResult(intent, PHOTO_CROP_CODE);
+    public static void startPhotoZoom(Activity activity, Uri uri) {
+        startPhotoZoom(activity, uri, 1f, 1f, 720, 720, null);
     }
 
     @TargetApi(19)
     public static String getPath(final Context context, final Uri uri) {
 
-        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        try {
+            final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
-        // DocumentProvider
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            // ExternalStorageProvider
-            if (isExternalStorageDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
+            // DocumentProvider
+            if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+                // ExternalStorageProvider
+                if (isExternalStorageDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
 
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                    if ("primary".equalsIgnoreCase(type)) {
+                        return Environment.getExternalStorageDirectory() + "/" + split[1];
+                    }
                 }
+                // DownloadsProvider
+                else if (isDownloadsDocument(uri)) {
 
-                // TODO handle non-primary volumes
-            }
-            // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
+                    final String id = DocumentsContract.getDocumentId(uri);
+                    final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
-                final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-                return getDataColumn(context, contentUri, null, null);
-            }
-            // MediaProvider
-            else if (isMediaDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    return getDataColumn(context, contentUri, null, null);
                 }
+                // MediaProvider
+                else if (isMediaDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
 
-                final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{split[1]};
+                    Uri contentUri = null;
+                    if ("image".equals(type)) {
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("video".equals(type)) {
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("audio".equals(type)) {
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    }
 
-                return getDataColumn(context, contentUri, selection, selectionArgs);
+                    final String selection = "_id=?";
+                    final String[] selectionArgs = new String[]{split[1]};
+
+                    return getDataColumn(context, contentUri, selection, selectionArgs);
+                }
             }
-        }
-        // MediaStore (and general)
-        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            // MediaStore (and general)
+            else if ("content".equalsIgnoreCase(uri.getScheme())) {
 
-            // Return the remote address
-            if (isGooglePhotosUri(uri))
-                return uri.getLastPathSegment();
+                // Return the remote address
+                if (isGooglePhotosUri(uri))
+                    return uri.getLastPathSegment();
 
-            return getDataColumn(context, uri, null, null);
-        }
-        // File
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
+                return getDataColumn(context, uri, null, null);
+            }
+            // File
+            else if ("file".equalsIgnoreCase(uri.getScheme())) {
+                return uri.getPath();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;

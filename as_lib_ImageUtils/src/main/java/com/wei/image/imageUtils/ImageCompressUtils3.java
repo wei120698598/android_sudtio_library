@@ -1,4 +1,4 @@
-package com.wei.utils.imageUtils;
+package com.wei.image.imageUtils;
 
 import android.content.Context;
 import android.database.Cursor;

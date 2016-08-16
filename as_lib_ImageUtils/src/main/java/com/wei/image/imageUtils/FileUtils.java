@@ -1,4 +1,4 @@
-package com.wei.utils.imageUtils;
+package com.wei.image.imageUtils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +32,7 @@ public class FileUtils {
      * 图片裁剪缓存路径
      */
     public static String cropPicDirPath;
+    private static boolean isInit = false;
 
 
     /**
@@ -40,10 +41,13 @@ public class FileUtils {
      * @param context
      */
     public static void initCacheDir(Context context) {
-        String packageName = context.getPackageName();
-        bitmap_cache = context.getExternalCacheDir() + "/" + packageName + "/bitmap_cache/";
-        bitmap_temp = context.getExternalCacheDir() + "/" + packageName + "/bitmap_temp/";
-        cropPicDirPath = context.getExternalCacheDir() + "/" + packageName + "/crop/";
+       if (!isInit){
+           String packageName = context.getPackageName();
+           bitmap_cache = context.getExternalCacheDir() + "/" + packageName + "/bitmap_cache/";
+           bitmap_temp = context.getExternalCacheDir() + "/" + packageName + "/bitmap_temp/";
+           cropPicDirPath = context.getExternalCacheDir() + "/" + packageName + "/crop/";
+           isInit = true;
+       }
     }
 
 

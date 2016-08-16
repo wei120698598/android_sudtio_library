@@ -1,4 +1,4 @@
-package com.wei.utils.imageUtils;
+package com.wei.image.imageUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

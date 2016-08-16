@@ -17,7 +17,6 @@
 package com.wei.view.customer.zxing.camera;
 
 
-import com.wei.view.customer.zxing.DefaultOpenCameraInterface;
 import com.wei.view.customer.zxing.decoding.PlatformSupportManager;
 
 /**
