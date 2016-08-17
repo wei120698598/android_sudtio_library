@@ -48,7 +48,7 @@
 
     </RelativeLayout>
 
-    <com.wei.image.select_pic.zoom.ViewPagerFixed
+    <com.wei.image.imageChoose.zoom.ViewPagerFixed
         android:id="@+id/gallery01"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

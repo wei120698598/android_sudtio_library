@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.wei.image.select_pic.Bimp;
-import com.wei.image.select_pic.GridAlumAdapter;
-import com.wei.image.select_pic.ImageItem;
-import com.wei.image.select_pic.SelectPhotoPop;
-import com.wei.image.select_pic.photoview.ImagePicker;
-import com.wei.image.select_pic.photoview.PublicWay;
+import com.wei.image.imageChoose.Bimp;
+import com.wei.image.imageChoose.GridAlumAdapter;
+import com.wei.image.imageChoose.ImageItem;
+import com.wei.image.imageChoose.SelectPhotoPop;
+import com.wei.image.imageChoose.photoview.ImagePicker;
+import com.wei.image.imageChoose.photoview.PublicWay;
 import com.wei.image.imageUtils.ImageCompressUtils2;
 import com.wei.view.customer.view.gridView.NoScrollGridViewClickBlank;
 

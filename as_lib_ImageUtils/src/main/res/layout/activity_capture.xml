@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <com.wei.image.zxing.view.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/include1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:alpha="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/qr_back" />
+
+        <ImageView
+            android:id="@+id/button_menu"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:alpha="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/qr_pic" />
+
+        <ImageView
+            android:id="@+id/btn_light"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:alpha="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/qr_light" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -8,20 +8,22 @@
 
 package com.wei.test;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.wei.image.imageCrop.CropImageUtils;
 import com.wei.image.imageUtils.ImageUtils2;
-import com.wei.image.select_pic.Bimp;
-import com.wei.image.select_pic.GridAlumAdapter;
-import com.wei.image.select_pic.ImageItem;
-import com.wei.image.select_pic.SelectPhotoPop;
-import com.wei.image.select_pic.photoview.ImagePicker;
+import com.wei.image.imageChoose.Bimp;
+import com.wei.image.imageChoose.GridAlumAdapter;
+import com.wei.image.imageChoose.ImageItem;
+import com.wei.image.imageChoose.SelectPhotoPop;
+import com.wei.image.imageChoose.photoview.ImagePicker;
 import com.wei.view.customer.view.gridView.NoScrollGridViewClickBlank;
 
 import java.io.File;
@@ -35,7 +37,7 @@ import java.util.ArrayList;
  * Created by Wei on 2016/8/16.
  */
 
-public class SelectPicNativeActivity extends Activity {
+public class SelectPicNativeActivity extends AppCompatActivity {
     private NoScrollGridViewClickBlank gridView;
     private SelectPhotoPop selectPhotoPop;
     private GridAlumAdapter gridAlumAdapter;
@@ -44,11 +46,14 @@ public class SelectPicNativeActivity extends Activity {
     private ArrayAdapter<String> adapter;
     private Uri uri;
 
+    private ImageView imageView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pic);
         gridView = (NoScrollGridViewClickBlank) findViewById(R.id.gridView);
+        imageView = (ImageView) findViewById(R.id.imageView);
         listView = (ListView) findViewById(R.id.listView);
         selectPhotoPop = new SelectPhotoPop(this, SelectPhotoPop.NATIVE_ALUM);
         gridAlumAdapter = new GridAlumAdapter(this, gridView, selectPhotoPop);
@@ -68,6 +73,7 @@ public class SelectPicNativeActivity extends Activity {
                 texts.add(imageItem.getImagePath());
             }
             adapter.notifyDataSetChanged();
+
         }
     }
 
@@ -106,7 +112,7 @@ public class SelectPicNativeActivity extends Activity {
             }
         } else if (requestCode == ImagePicker.PHOTO_CAMERA_CODE) { // camera
             uri = SelectPhotoPop.photoUri;
-            ImagePicker.startPhotoZoom(this, uri);
+            CropImageUtils.startPhotoZoom(this, uri);
         } else if (requestCode == ImagePicker.PHOTO_CROP_CODE) {// crop
             File file = new File(ImagePicker.cropPicPath);
             if (file.exists()) {

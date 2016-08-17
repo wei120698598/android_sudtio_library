@@ -12,50 +12,64 @@
         android:allowBackup="true"
         android:supportsRtl="true">
         <activity
-            android:name=".select_pic.BitmapCache"
+            android:label="图片选择_图片缓存"
+            android:name=".imageChoose.BitmapCache"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".select_pic.ui.AlbumActivity"
+            android:label="图片选择_显示所有图片"
+            android:name=".imageChoose.ui.AlbumActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".select_pic.ui.GalleryActivity"
+            android:label="图片选择_图片预览"
+            android:name=".imageChoose.ui.GalleryActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".select_pic.ui.ImageFileActivity"
+            android:label="图片选择_图片文件夹"
+            android:name=".imageChoose.ui.ImageFileActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".select_pic.ui.ShowAllPhoto"
+            android:label="图片选择_显示文件夹所有图片"
+            android:name=".imageChoose.ui.ShowAllPhoto"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".show_pic.image.ImagePagerActivity"
+            android:label="图片选择_图片查看器"
+            android:name=".imageBrowser.ImagePagerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:label="图片裁剪"
+            android:name=".imageCrop.CropImage"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".goonear.crop.CropImage"
+            android:label="图片裁剪"
+            android:name=".imageCrop.NoSearchActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".goonear.crop.NoSearchActivity"
+            android:label="图片裁剪"
+            android:name=".imageCrop.MonitoredActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".goonear.crop.MonitoredActivity"
+            android:label="二维码扫描"
+            android:name=".zxing.ui.MipcaCaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>
