@@ -40,6 +40,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 
+import com.wei.image.imageChoose.photoview.ImagePicker;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -553,6 +554,21 @@ public class ImageUtils {
 	 */
 	public static boolean isMediaDocument(Uri uri) {
 		return "com.android.providers.media.documents".equals(uri.getAuthority());
+	}
+
+
+	/**
+	 * 图片选择时根据返回的uri获取可用的uri
+	 * @param context
+	 * @param uri
+     * @return
+     */
+	public static Uri getUriByActivityResultUri(Context context, Uri uri) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			String imagePath = ImagePicker.getPath(context, uri); // 获取图片的绝对路径
+			uri = Uri.parse("file:///" + imagePath); // 将绝对路径转换为URL
+		}
+		return uri;
 	}
 
 }

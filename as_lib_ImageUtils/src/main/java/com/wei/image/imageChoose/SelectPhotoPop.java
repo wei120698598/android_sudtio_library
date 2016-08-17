@@ -23,9 +23,9 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.wei.image.R;
-import com.wei.image.imageUtils.FileUtils;
 import com.wei.image.imageChoose.photoview.ImagePicker;
 import com.wei.image.imageChoose.ui.ImageFileActivity;
+import com.wei.image.imageUtils.FileUtils;
 
 
 public class SelectPhotoPop {
@@ -194,7 +194,8 @@ public class SelectPhotoPop {
     /**
      * 关闭页面时要及时清空图片缓存
      */
-    public void clearBitmap(){
+    public void clearBitmap() {
         Bimp.clearCache();
     }
+
 }

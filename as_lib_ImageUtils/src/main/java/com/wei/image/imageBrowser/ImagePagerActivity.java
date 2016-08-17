@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.wei.image.R;
 
 import java.util.ArrayList;
-
 /**
  * 图片查看器
  */

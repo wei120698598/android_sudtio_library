@@ -17,13 +17,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.wei.image.imageCrop.CropImageUtils;
-import com.wei.image.imageUtils.ImageUtils2;
 import com.wei.image.imageChoose.Bimp;
 import com.wei.image.imageChoose.GridAlumAdapter;
 import com.wei.image.imageChoose.ImageItem;
 import com.wei.image.imageChoose.SelectPhotoPop;
 import com.wei.image.imageChoose.photoview.ImagePicker;
+import com.wei.image.imageCrop.CropImageUtils;
+import com.wei.image.imageUtils.ImageUtils2;
 import com.wei.view.customer.view.gridView.NoScrollGridViewClickBlank;
 
 import java.io.File;
@@ -91,10 +91,9 @@ public class SelectPicNativeActivity extends AppCompatActivity {
                 return;
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                Uri selectedImage = data.getData();
-                String imagePath = ImagePicker.getPath(this, selectedImage); // 获取图片的绝对路径
+                String imagePath = ImagePicker.getPath(this, uri); // 获取图片的绝对路径
                 uri = Uri.parse("file:///" + imagePath); // 将绝对路径转换为URL
-            } else {
+            }else {
                 uri = data.getData();
             }
             if (uri != null) {

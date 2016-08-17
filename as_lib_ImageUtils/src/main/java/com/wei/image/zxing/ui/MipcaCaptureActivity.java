@@ -121,6 +121,19 @@ public class MipcaCaptureActivity extends Activity implements Callback {
                 } else {
                     intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 }
+                String circleCrop = null;
+
+                if (isCropChooseImage) {
+                    intent.putExtra("crop", "true");
+                    intent.putExtra("aspectX", 1);
+                    intent.putExtra("aspectY", 1);
+                    intent.putExtra("outputX", 300);
+                    intent.putExtra("outputY", 300);
+                    intent.putExtra("circleCrop", circleCrop);
+                    intent.putExtra("return-data", true);
+                    intent.putExtra("noFaceDetection", true);
+                }
+
                 Intent wrapperIntent = Intent.createChooser(intent, "选择二维码图片");
                 startActivityForResult(wrapperIntent, REQUEST_CODE_LOCAL);
             }
@@ -204,15 +217,32 @@ public class MipcaCaptureActivity extends Activity implements Callback {
     private static final int PARSE_BARCODE_SUC = 300;
     private static final int PARSE_BARCODE_FAIL = 400;
 
+    /**
+     * 选择图片后是否进行裁剪
+     */
+    private static final boolean isCropChooseImage = true;
+    Bitmap image = null;
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         try {
-            if (requestCode == REQUEST_CODE_LOCAL && data != null) {
-                Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    photo_path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            if (requestCode == REQUEST_CODE_LOCAL && resultCode == RESULT_OK && data != null) {
+
+                if (isCropChooseImage) {
+                    image = data.getParcelableExtra("data");
+                } else {
+                    Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
+                    if (cursor != null && cursor.moveToFirst()) {
+                        photo_path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    }
+                    cursor.close();
+                    image = getBitmapByPath(photo_path);
                 }
-                cursor.close();
+
+                if (image == null) {
+                    Toast.makeText(MipcaCaptureActivity.this, "图片获取失败!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 mProgress = new ProgressDialog(MipcaCaptureActivity.this);
                 mProgress.setMessage("正在扫描...");
@@ -222,7 +252,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Result result = scanningImage(photo_path);
+                        Result result = scanningImage(image);
                         if (result != null) {
                             Message m = mHandler.obtainMessage();
                             m.what = PARSE_BARCODE_SUC;
@@ -231,17 +261,17 @@ public class MipcaCaptureActivity extends Activity implements Callback {
                         } else {
                             Message m = mHandler.obtainMessage();
                             m.what = PARSE_BARCODE_FAIL;
-                            m.obj = "Scan failed!";
+                            m.obj = "图片解析失败!";
                             mHandler.sendMessage(m);
                         }
                     }
                 }).start();
 
             } else {
-                Toast.makeText(MipcaCaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MipcaCaptureActivity.this, "扫描失败!", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(MipcaCaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MipcaCaptureActivity.this, "解析出现异常，扫描失败!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -251,7 +281,8 @@ public class MipcaCaptureActivity extends Activity implements Callback {
 
         @Override
         public void handleMessage(Message msg) {
-            mProgress.dismiss();
+            if (mProgress != null && mProgress.isShowing())
+                mProgress.dismiss();
             super.handleMessage(msg);
             switch (msg.what) {
                 case PARSE_BARCODE_SUC:
@@ -283,13 +314,16 @@ public class MipcaCaptureActivity extends Activity implements Callback {
     /**
      * 扫描二维码图片的方法
      *
-     * @param path
      * @return
      */
-    public Result scanningImage(String path) {
-        if (TextUtils.isEmpty(path)) {
+    public Result scanningImage(Bitmap bitmap) {
+        if (bitmap == null) {
+            Toast.makeText(this, "解析图片失败", Toast.LENGTH_SHORT).show();
             return null;
         }
+
+        scanBitmap = bitmap;
+
         Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
         // 可以解析的编码类型
         Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
@@ -305,15 +339,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
         hints.put(DecodeHintType.CHARACTER_SET, "UTF8"); // 设置二维码内容的编码
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true; // 先获取原大小
-        scanBitmap = BitmapFactory.decodeFile(path, options);
-        options.inJustDecodeBounds = false; // 获取新的大小
-        int sampleSize = (int) (options.outHeight / (float) 200);
-        if (sampleSize <= 0)
-            sampleSize = 1;
-        options.inSampleSize = sampleSize;
-        scanBitmap = BitmapFactory.decodeFile(path, options);
+
         RGBLuminanceSource source = new RGBLuminanceSource(scanBitmap);
         BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
         QRCodeReader reader = new QRCodeReader();
@@ -328,6 +354,22 @@ public class MipcaCaptureActivity extends Activity implements Callback {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private Bitmap getBitmapByPath(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; // 先获取原大小
+        Bitmap scanBitmap = BitmapFactory.decodeFile(path, options);
+        options.inJustDecodeBounds = false; // 获取新的大小
+        int sampleSize = (int) (options.outHeight / (float) 200);
+        if (sampleSize <= 0)
+            sampleSize = 1;
+        options.inSampleSize = sampleSize;
+        scanBitmap = BitmapFactory.decodeFile(path, options);
+        return scanBitmap;
     }
 
     @Override
@@ -359,7 +401,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
         if (resultString.equals("")) {
-            Toast.makeText(MipcaCaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MipcaCaptureActivity.this, "解析结果为空!", Toast.LENGTH_SHORT).show();
         } else {
             Intent resultIntent = new Intent();
             Bundle bundle = new Bundle();

@@ -67,6 +67,9 @@ public class ScanQrUtils {
     public static ScanQrResult activityResult(Intent data, int requestCode, int resultCode, final boolean isGetBitmap) {
         ScanQrResult scanQrResult = new ScanQrResult();
         try {
+            if (data == null){
+                return null;
+            }
             Bundle bundle = data.getExtras();
             if (bundle == null) {
                 return null;
