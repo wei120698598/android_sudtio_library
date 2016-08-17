@@ -42,6 +42,7 @@ public class ScanQrActivity extends AppCompatActivity {
                 MipcaCaptureActivity.startActivity(ScanQrActivity.this, true);
             }
         });
+
         linearLayout.addView(button);
         setContentView(linearLayout);
 
