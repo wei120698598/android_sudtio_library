@@ -20,7 +20,6 @@ import com.wei.utils.ui.DensityUtil;
 /**
  * Created by Wei on 2016/8/16.
  */
-
 public class ScanQrActivity extends AppCompatActivity {
 
     private LinearLayout linearLayout;
