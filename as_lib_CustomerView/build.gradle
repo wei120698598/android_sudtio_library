@@ -131,7 +131,14 @@ android {
 //    configurations = ['archives']
 //}
 
-
+// 消除警告
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+//            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'

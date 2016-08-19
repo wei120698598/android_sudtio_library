@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 
-
+import com.wei.view.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

@@ -6,7 +6,7 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.wei.view.customer.view.draggridview;
+package com.wei.view.customer.view.dragGridview;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
