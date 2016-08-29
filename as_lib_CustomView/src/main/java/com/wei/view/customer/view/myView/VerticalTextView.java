@@ -29,7 +29,7 @@ public class VerticalTextView extends TextView {
 	private final VerticalTextView.TextMoveHandler moveHandler = new VerticalTextView.TextMoveHandler(this);
 	private float step = 0.0F;
 	private String text = "";
-	private List<String> textList = new ArrayList();
+	private List<String> textList = new ArrayList<>();
 	private float width = 0.0F;
 	private float y_coordinate = 0.0F;
 
@@ -62,8 +62,6 @@ public class VerticalTextView extends TextView {
 
 	/**
 	 * 设置滚动速度
-	 * 
-	 * @return
 	 */
 	public void setScrollSpeed(float scrollSpeed) {
 		if (scrollSpeed == 0.2) {
@@ -285,7 +283,7 @@ public class VerticalTextView extends TextView {
 		private final WeakReference<VerticalTextView> mScroll;
 
 		public TextMoveHandler(VerticalTextView context) {
-			this.mScroll = new WeakReference(context);
+			this.mScroll = new WeakReference<VerticalTextView>(context);
 		}
 
 		public void handleMessage(Message context) {

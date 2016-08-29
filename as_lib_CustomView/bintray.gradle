@@ -13,14 +13,16 @@ task generateJavadocs(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs //source指定了代码源
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     options.encoding = "UTF-8"
-    options.addStringOption('Xdoclint:none', '-quiet')
 }
+
+
 
 //这里dependsOn意为仅当generateJavadocs完成后才开始本task
 task generateJavadocsJar(type: Jar, dependsOn: generateJavadocs) {
     from generateJavadocs.destinationDir
     classifier 'javadoc'
 }
+
 
 //为了将你生成的源代码和Javadoc Jar文件添加到Maven中，你需要将task添加到一个archive中
 artifacts {
@@ -35,13 +37,15 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 
-group = 'com.wei.utils' // 这里需要和真实包名对应，不能随便填写
-version = '1.0.2' // 指定版本号
+
+group = 'com.wei.view' // 这里需要和真实包名对应，不能随便填写
+version = '1.0.3' // 指定版本号
 
 def siteUrl = 'https://github.com/wei120698598/android_sudtio_library'   // 项目的主页
 def gitUrl = 'https://github.com/wei120698598/android_sudtio_library.git'   // Git仓库的url
 def issueUrl = 'https://github.com/wei120698598/android_sudtio_library/issues'   // Git仓库的url
-def desc = "Android Customer Utils"   // Git仓库的url
+def desc = '"Android Customer View Or Layout"'   // Git仓库的url
+
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
@@ -76,24 +80,26 @@ install {
         }
     }
 }
+
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
 
     pkg {
         repo = 'maven'
-        name = 'com.wei.utils'
+        name = 'com.wei.view'
         licenses = ["Apache-2.0"]
 
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        issueTrackerUrl = issueUrl
+        issueTrackerUrl  = issueUrl
         publicDownloadNumbers = true
+
         version {
-            name = '1.0.2'
+            name = '1.0.3'
             desc = desc
 //            released = new Date()
-            vcsTag = '1.0.2'
+            vcsTag = '1.0.3'
             publish = true
         }
     }

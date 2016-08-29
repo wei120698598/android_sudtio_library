@@ -13,9 +13,7 @@ import android.widget.RelativeLayout;
 
 /**
  * Created by wei on 2016/7/21.
- * <p/>
  * 悬浮按钮
- * <p/>
  * 可以通过windowManage添加view实现应用内部悬浮按钮
  * 可以通过在布局页面中使用自定义view实现页面内部悬浮按钮
  * 可以通过service添加view实现应用内外悬浮按钮

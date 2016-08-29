@@ -26,7 +26,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.0'
     //    compile 'com.jakewharton:butterknife:8.2.1'
     compile project(':as_lib_NetWorkUtils')
-    compile project(':as_lib_CustomUtils')
+    compile project(':as_lib_CommonUtils')
     compile project(':as_lib_CustomView')
     compile project(':as_lib_DatebaseUtils')
     compile project(':as_lib_ImageUtils')

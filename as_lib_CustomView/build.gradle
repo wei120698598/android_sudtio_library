@@ -1,12 +1,8 @@
 apply plugin: 'com.android.library'
 
-
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
-
 
     defaultConfig {
         minSdkVersion 9
@@ -22,14 +18,11 @@ android {
     }
 }
 
-
-
-
 // 消除警告
 allprojects {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
-//            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
         }
     }
 }
@@ -37,6 +30,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile project(':as_lib_CustomUtils')
+    compile project(':as_lib_CommonUtils')
 
 }
+apply from: 'bintray.gradle'
