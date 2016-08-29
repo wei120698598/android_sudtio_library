@@ -1,1 +1,1 @@
-include ':as_app_demo', ':as_lib_ImageUtils', ':as_lib_CustomerView', ':as_lib_CustomerUtils', ':as_lib_DatebaseUtils', ':as_lib_NetWorkUtils'
+include ':as_app_demo', ':as_lib_ImageUtils', ':as_lib_CustomView', ':as_lib_CustomUtils', ':as_lib_DatebaseUtils', ':as_lib_NetWorkUtils'

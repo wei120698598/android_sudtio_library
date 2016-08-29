@@ -14,7 +14,7 @@ android_sudtio_library 里面主要集成了在Android App开发过程中常用�
 
 ----------------------------
 
-as_lib_CustomerUtils 主要包含了常用的工具类，例如TextUtils，日志打印，手机信息获取等
+as_lib_CustomUtils 主要包含了常用的工具类，例如TextUtils，日志打印，手机信息获取等
 
 as_lib_DatabaseUtils 主要包含了对数据库操作常用的工具类，这里面主要对开源的库进行了二次封装，例如对GreenDao的封装
 
@@ -22,16 +22,16 @@ as_lib_ImageUtils 主要包含了对图片操作常用的工具类，例如对�
 
 as_lib_NetWorkUtils 主要包含了与联网相关的工具类，里面有自己封装的以及对开源的库二次封装，例如对volley的二次封装
 
-as_lib_CustomerView 主要包含了常用的自定义View，例如圆形图片，图片选择，自定义的ListView等等
+as_lib_CustomView 主要包含了常用的自定义View，例如圆形图片，图片选择，自定义的ListView等等
 
 ----------------------------
 
 
 
-Add as_lib_CustomerUtils to your project
+Add as_lib_CustomUtils to your project
 ----------------------------
 ```gradle
-compile 'com.wei.utils:as_lib_CustomerUtils:1.0.2'
+compile 'com.wei.utils:as_lib_CustomUtils:1.0.2'
 ```
 
 
@@ -59,9 +59,9 @@ compile 'com.wei.net:as_lib_NetWorkUtils:1.0.2'
 ```
 
 
-Add as_lib_CustomerView to your project
+Add as_lib_CustomView to your project
 ----------------------------
 
 ```gradle
-compile 'com.wei.view:as_lib_CustomerView:1.0.3'
+compile 'com.wei.view:as_lib_CustomView:1.0.3'
 ```
