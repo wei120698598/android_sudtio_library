@@ -2,6 +2,7 @@ package com.wei.image.imageChoose;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -9,6 +10,8 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -18,7 +21,6 @@ import com.wei.image.R;
 import com.wei.image.imageChoose.photoview.PublicWay;
 import com.wei.image.imageChoose.ui.GalleryActivity;
 import com.wei.image.imageUtils.ImageUtils;
-import com.wei.utils.utils.HideSoftKeyBoard;
 
 
 /**
@@ -46,7 +48,7 @@ public class GridAlumAdapter extends BaseAdapter {
 
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 if (arg2 == Bimp.tempSelectBitmap.size()) {
-                    HideSoftKeyBoard.hideSoftKeyboard(context);
+                    hideSoftKeyboard(context);
                     selectPhotoPop.showPop(context);
                 } else {
                     Intent intent = new Intent(context, GalleryActivity.class);
@@ -57,7 +59,21 @@ public class GridAlumAdapter extends BaseAdapter {
             }
         });
     }
-
+    public static boolean hideSoftKeyboard(Context context) {
+        try {
+            Activity act = (Activity) context;
+            if (act.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+                if (act.getCurrentFocus() != null) {
+                    return ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(act
+                            .getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public void resume() {
         loading();

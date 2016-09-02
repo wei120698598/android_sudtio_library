@@ -11,8 +11,6 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.wei.utils.utils.ToastUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -109,7 +107,7 @@ public class FileUtils {
                 path = bitmap_temp;
             }
             if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                ToastUtils.showToast(context, "外置储存无效");
+              Toast.makeText(context, "外置储存无效",Toast.LENGTH_SHORT).show();
                 return null;
             } else {
                 File filePath = new File(path);

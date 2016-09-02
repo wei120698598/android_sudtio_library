@@ -13,10 +13,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.wei.image.imageUtils.FileUtils;
-import com.wei.utils.utils.TextUtils;
 
 import java.io.File;
 

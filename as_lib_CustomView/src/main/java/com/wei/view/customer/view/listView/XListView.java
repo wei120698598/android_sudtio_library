@@ -9,6 +9,8 @@
 package com.wei.view.customer.view.listView;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,8 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.wei.utils.ui.CommonUtils;
-import com.wei.utils.ui.DensityUtil;
 import com.wei.view.R;
 
 /**
@@ -53,7 +53,6 @@ public class XListView extends ListView implements OnScrollListener {
     private XListViewFooter mFooterView;
     private boolean mEnablePullLoad;
     private boolean mAutoPullLoad = true;
-
 
 
     private boolean mPullLoading;
@@ -105,6 +104,7 @@ public class XListView extends ListView implements OnScrollListener {
 
     /**
      * 设置是否可以自动加载更多
+     *
      * @param mAutoPullLoad
      */
     public void setmAutoPullLoad(boolean mAutoPullLoad) {
@@ -240,6 +240,7 @@ public class XListView extends ListView implements OnScrollListener {
 
     /**
      * 将头部恢复
+     *
      * @param delta
      */
     private void updateHeaderHeight(float delta) {
@@ -255,9 +256,7 @@ public class XListView extends ListView implements OnScrollListener {
     }
 
     /**
-     *
      * 恢复底部状态
-     *
      */
     private void resetHeaderHeight() {
         int height = mHeaderView.getVisiableHeight();
@@ -307,7 +306,7 @@ public class XListView extends ListView implements OnScrollListener {
      * 执行手动刷新
      */
     public void activeRefresh() {
-        mHeaderView.setVisiableHeight(DensityUtil.dip2px(getContext(), 60));
+        mHeaderView.setVisiableHeight(dip2px(getContext(), 60));
         setSelection(0);
         startRefresh();
     }
@@ -316,11 +315,15 @@ public class XListView extends ListView implements OnScrollListener {
      * 执行手动加载
      */
     public void activeLoadMore() {
-        mFooterView.setBottomMargin(DensityUtil.dip2px(getContext(), 60));
+        mFooterView.setBottomMargin(dip2px(getContext(), 60));
         setSelection(mTotalItemCount - 1);
         startLoadMore();
     }
 
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
     private void startLoadMore() {
         if (mFooterView == null) {
@@ -361,8 +364,7 @@ public class XListView extends ListView implements OnScrollListener {
                     // the first item is showing, header has shown or pull down.
                     updateHeaderHeight(deltaY / OFFSET_RADIO);
                     invokeOnScrolling();
-                }
-                else if (mEnablePullLoad && getLastVisiblePosition() == mTotalItemCount - 1 && (mFooterView.getBottomMargin() > 0 || deltaY < 0)
+                } else if (mEnablePullLoad && getLastVisiblePosition() == mTotalItemCount - 1 && (mFooterView.getBottomMargin() > 0 || deltaY < 0)
                         && getLastVisiblePosition() >= pageSize) {
                     // last item, already pulled up or want to pull up.
                     updateFooterHeight(-deltaY / OFFSET_RADIO);
@@ -376,9 +378,7 @@ public class XListView extends ListView implements OnScrollListener {
                         startRefresh();
                     }
                     resetHeaderHeight();
-                }
-
-                else if (getLastVisiblePosition() == mTotalItemCount - 1 && getLastVisiblePosition() >= pageSize) {
+                } else if (getLastVisiblePosition() == mTotalItemCount - 1 && getLastVisiblePosition() >= pageSize) {
                     // 执行加载更多
                     if (mEnablePullLoad && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA && !mPullLoading) {
                         startLoadMore();
@@ -431,7 +431,7 @@ public class XListView extends ListView implements OnScrollListener {
 
         // 如果倒数第二项item可见，并且当前数据量要多于页面大小，表示可以加载下一页数据，否则说明数据量不足，不必加载更多
         if (mAutoPullLoad && mEnablePullLoad && !mPullLoading && lastVisiblePosition >= pageSize && lastVisiblePosition == totalItemCount - 2
-                && CommonUtils.isNetWorkConnected(getContext())) {
+                && isNetWorkConnected(getContext())) {
             startLoadMore();
             listViewSize = totalItemCount;
         }
@@ -440,6 +440,18 @@ public class XListView extends ListView implements OnScrollListener {
         if (mScrollListener != null) {
             mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
         }
+    }
+
+    public static boolean isNetWorkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+
+        return false;
     }
 
     public void setXListViewListener(IXListViewListener l) {
