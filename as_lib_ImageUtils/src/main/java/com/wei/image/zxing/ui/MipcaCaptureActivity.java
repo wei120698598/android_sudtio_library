@@ -25,6 +25,7 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -50,6 +51,7 @@ import com.wei.image.zxing.decoding.InactivityTimer;
 import com.wei.image.zxing.decoding.RGBLuminanceSource;
 import com.wei.image.zxing.view.ViewfinderView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -62,6 +64,8 @@ import java.util.Vector;
  * @author Ryan.Tang
  */
 public class MipcaCaptureActivity extends Activity implements Callback {
+
+    public static final String LOG_TAG = "com.wei.image";
 
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
@@ -86,7 +90,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
      */
     public static void startActivity(Activity context, boolean isGetBitmap) {
         Intent intent = new Intent(context, MipcaCaptureActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("isGetBitmap", isGetBitmap);
         context.startActivityForResult(intent, MipcaCaptureActivity.REQUEST_CODE_LOCAL);
     }
@@ -369,7 +373,37 @@ public class MipcaCaptureActivity extends Activity implements Callback {
             sampleSize = 1;
         options.inSampleSize = sampleSize;
         scanBitmap = BitmapFactory.decodeFile(path, options);
+//        Log.d(LOG_TAG,"压缩后图片大小"+scanBitmap.)
         return scanBitmap;
+    }
+
+    public static Bitmap getBitmapByBytes(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bytes = baos.toByteArray();
+        //对于图片的二次采样,主要得到图片的宽与高
+        int width = 0;
+        int height = 0;
+        int sampleSize = 1; //默认缩放为1
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;  //仅仅解码边缘区域
+        //如果指定了inJustDecodeBounds，decodeByteArray将返回为空
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+        //得到宽与高
+        height = options.outHeight;
+        width = options.outWidth;
+
+        //图片实际的宽与高，根据默认最大大小值，得到图片实际的缩放比例
+        while ((height / sampleSize > 200)
+                || (width / sampleSize > 200)) {
+            sampleSize *= 2;
+        }
+
+        //不再只加载图片实际边缘
+        options.inJustDecodeBounds = false;
+        //并且制定缩放比例
+        options.inSampleSize = sampleSize;
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
     }
 
     @Override
@@ -391,6 +425,12 @@ public class MipcaCaptureActivity extends Activity implements Callback {
         }
 
         super.onDestroy();
+        if (scanBitmap != null && !scanBitmap.isRecycled()) {
+            scanBitmap.recycle();
+        }
+        if (image != null && !image.isRecycled()) {
+            image.recycle();
+        }
     }
 
     /**
@@ -400,18 +440,29 @@ public class MipcaCaptureActivity extends Activity implements Callback {
     public void handleDecode(String resultString, Bitmap barcode) {// 返回扫描的数据
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
+        Log.d(LOG_TAG, resultString);
         if (resultString.equals("")) {
             Toast.makeText(MipcaCaptureActivity.this, "解析结果为空!", Toast.LENGTH_SHORT).show();
         } else {
             Intent resultIntent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putString(REQUEST_RESULT_TEXT, recode(resultString));
-            if (isGetBitmap)
-                bundle.putParcelable(REQUEST_RESULT_BITMAP, barcode);
+            if (isGetBitmap) {
+                try {
+                  Bitmap  bitmap = getBitmapByBytes(barcode);
+
+                    if (bitmap != null) {
+                        Log.d(LOG_TAG, "返回结果图片");
+                        bundle.putParcelable(REQUEST_RESULT_BITMAP, bitmap);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             resultIntent.putExtras(bundle);
-            this.setResult(RESULT_OK, resultIntent);
+            setResult(RESULT_OK, resultIntent);
         }
-        this.finish();
+        finish();
         // if(handler!=null) //实现连续扫描
         // handler.restartPreviewAndDecode();
     }
@@ -458,7 +509,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
     }
 
     public void drawViewfinder() {
-        viewfinderView.drawViewfinder();
+        viewfinderView.drawResultBitmap(scanBitmap);
     }
 
     private void initBeepSound() {
@@ -504,5 +555,6 @@ public class MipcaCaptureActivity extends Activity implements Callback {
         }
     };
     private ImageView btn_light;
+
 
 }

@@ -32,6 +32,7 @@ public class ScanQrActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         Button button = new Button(this);
         button.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
         button.setText("扫描");
@@ -54,7 +55,7 @@ public class ScanQrActivity extends AppCompatActivity {
         result_img = new ImageView(this);
         result_text = new TextView(this);
         linearLayout.addView(result_text, -1, -2);
-        linearLayout.addView(result_img);
+        linearLayout.addView(result_img,new LinearLayout.LayoutParams(500,500));
     }
 
     @Override
