@@ -323,7 +323,7 @@ public final class CameraManager {
      *         offset appropriately so they can be drawn in screen coordinates.
      */
     /*
-	 * public Point[] convertResultPoints(ResultPoint[] points) { Rect frame =
+     * public Point[] convertResultPoints(ResultPoint[] points) { Rect frame =
 	 * getFramingRectInPreview(); int count = points.length; Point[] output =
 	 * new Point[count]; for (int x = 0; x < count; x++) { output[x] = new
 	 * Point(); output[x].x = frame.left + (int) (points[x].getX() + 0.5f);
