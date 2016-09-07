@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import com.wei.image.zxing.decoding.ScanQrUtils;
 import com.wei.image.zxing.ui.MipcaCaptureActivity;
 import com.wei.utils.ui.DensityUtil;
+import com.wei.utils.utils.ToastUtils;
 
 
 /**
@@ -43,6 +47,10 @@ public class ScanQrActivity extends AppCompatActivity {
             }
         });
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("图片");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         linearLayout.addView(button);
         setContentView(linearLayout);
 
@@ -56,6 +64,27 @@ public class ScanQrActivity extends AppCompatActivity {
         result_text = new TextView(this);
         linearLayout.addView(result_text, -1, -2);
         linearLayout.addView(result_img,new LinearLayout.LayoutParams(500,500));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_photo_pick, menu);
+        MenuItem mMenuItem = menu.getItem(0);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_finish) {
+            ToastUtils.showToast(this,"设置");
+            return true;
+        } else if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
