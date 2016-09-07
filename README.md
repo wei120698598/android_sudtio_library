@@ -1,10 +1,10 @@
 # android_sudtio_library#
 [![](https://jitpack.io/v/wei120698598/android_sudtio_library.svg)](https://jitpack.io/#wei120698598/android_sudtio_library)
 
-Please ensure that you are using the latest version by 
- [bintray checking here](https://bintray.com/bintray/jcenter)
- [github checking here](https://github.com/wei120698598/android_sudtio_library)
- [coding checking here](https://coding.net/u/wei120698598/p/android_sudtio_library/git)
+Please ensure that you are using the latest version by <br>
+ [bintray checking here](https://bintray.com/bintray/jcenter)<br>
+ [github checking here](https://github.com/wei120698598/android_sudtio_library)<br>
+ [coding checking here](https://coding.net/u/wei120698598/p/android_sudtio_library/git)<br>
  [jitpack checking here](https://jitpack.io/#wei120698598/android_sudtio_library)
 
 android_sudtio_library 里面主要集成了在Android App开发过程中常用的工具类、自定义view、联网、数据操作等工具，
