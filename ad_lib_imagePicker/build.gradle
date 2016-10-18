@@ -15,7 +15,7 @@ android {
     resourcePrefix "android_" // 资源前缀
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 9
         targetSdkVersion 24
         versionCode 1
         versionName "1.0.1"
