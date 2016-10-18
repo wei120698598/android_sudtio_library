@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.foamtrace.photopicker">
+
+    <application >
+        <activity
+            android:name=".PhotoPickerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/PhotoPickerTheme" />
+
+        <activity
+            android:name=".PhotoPreviewActivity2"
+            android:theme="@style/PhotoPickerTheme" />
+
+        <activity
+            android:name=".PhotoPreviewActivity"
+            android:theme="@style/PhotoPickerTheme" />
+    </application>
+</manifest>
