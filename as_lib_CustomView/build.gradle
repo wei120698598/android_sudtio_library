@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 22
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0.2"
     }
@@ -29,6 +29,6 @@ allprojects {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:22+'
 }
 //apply from: 'bintray.gradle'

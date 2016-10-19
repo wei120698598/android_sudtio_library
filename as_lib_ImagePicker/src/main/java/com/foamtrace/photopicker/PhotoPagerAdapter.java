@@ -58,7 +58,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
     Glide.with(mContext)
             .load(uri)
 //            .placeholder(R.mipmap.default_error)
-            .error(R.mipmap.default_error)
+            .error(R.drawable.default_error)
             .crossFade()
             .into(imageView);
 

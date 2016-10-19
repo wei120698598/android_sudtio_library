@@ -204,7 +204,7 @@ public class ImagePickerActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageView imageView;
             if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.pop_item_camera, null);
+                convertView = getLayoutInflater().inflate(R.layout.picker_item_image, null);
                 imageView = (ImageView) convertView.findViewById(R.id.imageView);
                 convertView.setTag(imageView);
                 // 重置ImageView宽高
@@ -215,8 +215,8 @@ public class ImagePickerActivity extends AppCompatActivity {
             }
             Glide.with(context)
                     .load(new File(getItem(position)))
-                    .placeholder(R.mipmap.default_error)
-                    .error(R.mipmap.default_error)
+                    .placeholder(R.drawable.default_error)
+                    .error(R.drawable.default_error)
                     .centerCrop()
                     .crossFade()
                     .into(imageView);

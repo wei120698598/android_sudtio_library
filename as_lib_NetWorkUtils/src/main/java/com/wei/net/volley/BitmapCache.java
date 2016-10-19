@@ -1,7 +1,8 @@
 package com.wei.net.volley;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -13,7 +14,7 @@ public class BitmapCache implements ImageLoader.ImageCache {
     public LruCache<String, Bitmap> cache;
     public int max = 10 * 1024 * 1024; // 10M图片大小
 
-    @SuppressLint("NewApi")
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     public BitmapCache() {
         cache = new LruCache<String, Bitmap>(max) {
             @Override

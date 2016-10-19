@@ -1,21 +1,26 @@
 package com.foamtrace.photopicker;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
- * 文件夹
+ * 图片实体
  * Created by Nereo on 2015/4/7.
  */
-public class Folder {
-    public String name;
+public class Image implements Serializable{
     public String path;
-    public Image cover;
-    public List<Image> images;
+    public String name;
+    public long time;
+
+    public Image(String path, String name, long time){
+        this.path = path;
+        this.name = name;
+        this.time = time;
+    }
 
     @Override
     public boolean equals(Object o) {
         try {
-            Folder other = (Folder) o;
+            Image other = (Image) o;
             return this.path.equalsIgnoreCase(other.path);
         }catch (ClassCastException e){
             e.printStackTrace();

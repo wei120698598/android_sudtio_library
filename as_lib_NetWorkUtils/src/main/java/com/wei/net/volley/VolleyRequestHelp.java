@@ -27,7 +27,7 @@ public class VolleyRequestHelp {
                 .putParams("cvn2", "")
                 .putParams("expired", "")
                 .putParams("smsCode", "");
-        rCallback.setFailToastType(RequestCallback.FAIL_TOAST_TYPE_DIALOG);
+        rCallback.getSettings().setFailToastType(VolleySettings.FAIL_TOAST_TYPE_DIALOG);
         rCallback.showDialog();
         VolleyRequest.RequestPost(RequestUtils.uri, rCallback, new RequestCallbackAgain() {
             @Override

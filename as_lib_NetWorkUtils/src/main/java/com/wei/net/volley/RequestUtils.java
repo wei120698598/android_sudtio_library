@@ -32,7 +32,10 @@ public class RequestUtils {
     public static final String key1 = "wywy_payment";
     public static final String key2 = "2a32555b228d4c02350f9a93d5835ed5";
 
-    public static final String uri = "http://192.168.1.3:8888/wywy_payment/core";
+    public static final String uri = "http://pay.5u51.cn/wywy_payment/core ";
+
+//    public static final String uri = "http://192.168.1.3:8888/wywy_payment/core ";
+
 
     /**
      * 手机信息
@@ -41,17 +44,28 @@ public class RequestUtils {
      * @return
      */
     public static String getPhoneInfo(Context context) {
-        oUa = "0|0|0|0|0|0|0|0|0";
+//        oUa = "0|0|0|0|0|0|0|0|0";
+        oUa = "";
         if (TextUtils.isEmpty(oUa)) {
 //            String wifiMac = GetPhoneInfo.getWifiMac(context);
 //            String phoneName = GetPhoneInfo.getPhoneName();
 //            String sysVersion = GetPhoneInfo.getSysVersion();
 //            String screen = GetPhoneInfo.getScreen();
-//            String UUID = "0";
+//            String UUID = GetPhoneInfo.getIMEI(context);
 //            String imsi = GetPhoneInfo.getIMSI(context);
 //            String simNum = GetPhoneInfo.getSIMNum(context);
 //            String manufacturer = GetPhoneInfo.getManufacturer();
+//            oUa += TextUtils.isEmpty(wifiMac) ? "0|" : wifiMac + "|";
+//            oUa += TextUtils.isEmpty(phoneName) ? "0|" : phoneName + "|";
+//            oUa += TextUtils.isEmpty(sysVersion) ? "0|" : sysVersion + "|";
+//            oUa += TextUtils.isEmpty(screen) ? "0|" : screen + "|";
+//            oUa += TextUtils.isEmpty(UUID) ? "0|" : UUID + "|";
+//            oUa += TextUtils.isEmpty(imsi) ? "0|" : imsi + "|";
+//            oUa += TextUtils.isEmpty(simNum) ? "0|" : simNum + "|";
+//            oUa += TextUtils.isEmpty(manufacturer) ? "0" : manufacturer + "";
         }
+
+
         return oUa;
     }
 
@@ -64,7 +78,7 @@ public class RequestUtils {
      * @throws Exception
      */
     @NonNull
-    public static String sign(Context context, Map<String, String> params) throws Exception {
+    public static String encrypt(Context context, Map<String, String> params) throws Exception {
         //设置appId
 //        String appId = BaseApplication.getPid() + "_android_" + BaseApplication.getCid() + "_01";
 //        params.put("appId", appId);
@@ -192,5 +206,31 @@ public class RequestUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    /**
+     * 根据Json串获取字符串，Response的响应数据
+     *
+     * @param jsonStr
+     * @param key
+     * @return
+     */
+    public static String getStringByStr(String jsonStr, String key) {
+        String value = null;
+        try {
+            if (android.text.TextUtils.isEmpty(jsonStr)) {
+//                LogUtils.myI("getStringByStr---->json数据为空");
+                return null;
+            }
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            JSONObject object = jsonObject.getJSONObject("Response");
+            if (object.has(key)) {
+                value = object.getString(key).trim();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
     }
 }

@@ -29,7 +29,6 @@ import com.foamtrace.photopicker.intent.PhotoPreviewIntent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhotoPickerActivity extends AppCompatActivity {
 
@@ -64,7 +63,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     /**
      * 点击图片是否选中，boolean类型
      */
-    public static final String EXTRA_CLICK_IMAGE = "show_camera";
+    public static final String EXTRA_CLICK_IMAGE = "click_image";
     /**
      * 默认选择的数据集
      */
@@ -82,6 +81,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private ArrayList<String> resultList = new ArrayList<>();
     // 文件夹数据
     private ArrayList<Folder> mResultFolder = new ArrayList<>();
+    private ArrayList<String> mAllImagePaths = new ArrayList<>();
 
     // 不同loader定义
     private static final int LOADER_ALL = 0;
@@ -95,7 +95,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     // 最大照片数量
     private ImageCaptureManager captureManager;
-    private int mDesireImageCount;
+    public static int mDesireImageCount;
     private ImageConfig imageConfig; // 照片配置
 
     private ImageGridAdapter mImageAdapter;
@@ -105,6 +105,11 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private boolean hasFolderGened = false;
     private boolean mIsShowCamera = false;
     private boolean mIsClickImage = false;
+    private int mode;
+
+    public int getMode() {
+        return mode;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +128,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         mDesireImageCount = getIntent().getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_MAX_TOTAL);
 
         // 图片选择模式
-        final int mode = getIntent().getExtras().getInt(EXTRA_SELECT_MODE, MODE_SINGLE);
+        mode = getIntent().getExtras().getInt(EXTRA_SELECT_MODE, MODE_SINGLE);
 
         // 默认选择
         if (mode == MODE_MULTI) {
@@ -132,6 +137,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 resultList.addAll(tmp);
             }
         }
+
 
         // 是否显示照相机
         mIsShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, false);
@@ -157,20 +163,28 @@ public class PhotoPickerActivity extends AppCompatActivity {
                         showCameraAction();
                     } else {
                         // 正常操作
-                        if (mIsClickImage) {
+                        if (!mIsClickImage) {
                             Image image = (Image) adapterView.getAdapter().getItem(i);
                             selectImageFromGrid(image, mode);
                         } else {
-
+                            PhotoPreviewIntent intent = new PhotoPreviewIntent(mCxt, mIsClickImage);
+                            intent.setCurrentItem(mIsShowCamera ? --i : i);
+                            intent.setPhotoPaths(resultList);
+                            intent.setAllPhotoPaths(mAllImagePaths);
+                            startActivityForResult(intent, PhotoPreviewActivity.REQUEST_PREVIEW);
                         }
                     }
                 } else {
                     // 正常操作
-                    if (mIsClickImage) {
+                    if (!mIsClickImage) {
                         Image image = (Image) adapterView.getAdapter().getItem(i);
                         selectImageFromGrid(image, mode);
                     } else {
-
+                        PhotoPreviewIntent intent = new PhotoPreviewIntent(mCxt, mIsClickImage);
+                        intent.setCurrentItem(mIsShowCamera ? --i : i);
+                        intent.setPhotoPaths(resultList);
+                        intent.setAllPhotoPaths(mAllImagePaths);
+                        startActivityForResult(intent, PhotoPreviewActivity.REQUEST_PREVIEW);
                     }
                 }
             }
@@ -204,6 +218,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 PhotoPreviewIntent intent = new PhotoPreviewIntent(mCxt, mIsClickImage);
                 intent.setCurrentItem(0);
                 intent.setPhotoPaths(resultList);
+                intent.setAllPhotoPaths(resultList);
                 startActivityForResult(intent, PhotoPreviewActivity.REQUEST_PREVIEW);
             }
         });
@@ -275,6 +290,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                             mImageAdapter.setShowCamera(mIsShowCamera);
                         } else {
                             Folder folder = (Folder) v.getAdapter().getItem(index);
+
                             if (null != folder) {
                                 mImageAdapter.setData(folder.images);
                                 btnAlbum.setText(folder.name);
@@ -284,6 +300,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                                 }
                             }
                             mImageAdapter.setShowCamera(false);
+
                         }
 
                         // 滑动到最初始位置
@@ -384,7 +401,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
      *
      * @param image
      */
-    private void selectImageFromGrid(Image image, int mode) {
+    public void selectImageFromGrid(Image image, int mode) {
         if (image != null) {
             // 多选模式
             if (mode == MODE_MULTI) {
@@ -488,7 +505,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             if (data != null) {
-                List<Image> images = new ArrayList<>();
+                ArrayList<Image> images = new ArrayList<>();
                 int count = data.getCount();
                 if (count > 0) {
                     data.moveToFirst();
@@ -499,6 +516,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
                         Image image = new Image(path, name, dateTime);
                         images.add(image);
+                        mAllImagePaths.add(image.path);
                         if (!hasFolderGened) {
                             // 获取文件夹名称
                             File imageFile = new File(path);
@@ -508,7 +526,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                             folder.path = folderFile.getAbsolutePath();
                             folder.cover = image;
                             if (!mResultFolder.contains(folder)) {
-                                List<Image> imageList = new ArrayList<>();
+                                ArrayList<Image> imageList = new ArrayList<>();
                                 imageList.add(image);
                                 folder.images = imageList;
                                 mResultFolder.add(folder);

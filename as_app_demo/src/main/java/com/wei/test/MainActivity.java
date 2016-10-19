@@ -42,7 +42,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else if (text.equals(textList.get(2))) {
             startActivity(new Intent(this, ScanQrActivity.class));
         } else if (text.equals(textList.get(3))) {
-            startActivity(new Intent(this, ImagePickerActivity.class));
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                //请求权限
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 11);
+//                //判断是否需要 向用户解释，为什么要申请该权限
+//                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
+//                    Toast.makeText(this, "不能读取图片和拍照", Toast.LENGTH_SHORT).show();
+//                }
+//            } else {
+                startActivity(new Intent(this, ImagePickerActivity.class));
+//            }
+
         }
     }
+
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//
+//        switch (requestCode) {
+//            case 11: {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    // 权限被用户同意，可以去放肆了。
+//                    startActivity(new Intent(this, ImagePickerActivity.class));
+//                } else {
+//                    // 权限被用户拒绝了，洗洗睡吧。
+//                    Toast.makeText(this, "不能读取图片和拍照", Toast.LENGTH_SHORT).show();
+//                }
+//                return;
+//            }
+//        }
+//    }
+
 }

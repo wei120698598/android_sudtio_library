@@ -1,8 +1,6 @@
 package com.wei.net.volley;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
@@ -34,53 +32,9 @@ public class RequestCallback<T> {
 
     public static final String LOG_TAG = "VolleyInterface";
 
-    public static final String TAG_KEY_WORD_NAME = "service";
-
-    public static final int FAIL_TOAST_TYPE_NULL = -1;
-    public static final int FAIL_TOAST_TYPE_TOAST = 0;
-    public static final int FAIL_TOAST_TYPE_DIALOG = 1;
-
-
-    /**
-     * 标识整个数据处理过程中是是否出现异常，如果出现异常则为false可进行统一的安全处理或者取消网络连接
-     */
-    private boolean isSafe = true;
-
-    /**
-     * 设置是否允许缓存数据
-     */
-    private boolean allowCache = false;
-
-    /**
-     * 设置是否允许使用缓存数据
-     */
-    private boolean useCache = false;
-
-    /**
-     * 设置是否显示dialog
-     */
-    private boolean showDialog = false;
-    /**
-     * 默认缓存过期时间为一天，单位毫秒
-     */
-    private long expirationTime = 1000 * 60 * 24;
-
-    /**
-     * 保存和取得缓存的key，也是request的tag
-     */
-    private String tag;
-
-    /**
-     * 统一的错误提示，默认是Toast提示
-     */
-    private int failToastType = FAIL_TOAST_TYPE_TOAST;
+    public static final String TAG_KEY_WORD_NAME = "cmd";
 
     private Class<T> clazz;
-
-    private boolean useUserId = true;
-
-    private ProgressDialog progressDialog;
-
 
     public Context context;
     private Response.Listener<String> listener;
@@ -93,7 +47,7 @@ public class RequestCallback<T> {
     public static final String FAILED_DESC2 = "获取数据失败，请稍后重试!";
     public static final String FAILED_DESC3 = "未知错误，请稍后重试!";
     public static final String ERROR_DESC1 = "参数错误，请稍后重试!";
-
+    private VolleySettings settings;
 
     /**
      * 请求回调接口
@@ -106,6 +60,7 @@ public class RequestCallback<T> {
     public RequestCallback(Context context, final LinkedHashMap<String, String> bodyParams, final LinkedHashMap<String, String> headerParams, Class<T> clazz) {
         this.context = context;
         this.clazz = clazz;
+        settings = new VolleySettings();
         setParams(bodyParams);
 
         setHeaders(headerParams);
@@ -152,14 +107,14 @@ public class RequestCallback<T> {
      * @param error
      */
     public void onMyError(VolleyError error) {
-        if (failToastType != FAIL_TOAST_TYPE_NULL) {
+        if (settings.getFailToastType() != VolleySettings.FAIL_TOAST_TYPE_DIALOG) {
             String message = error.getMessage();
             Throwable cause = error.getCause();
             if (cause instanceof ConnectException) {
                 message = "请检查网络或稍后重试!";
             }
             String msg = TextUtils.isEmpty(message) ? FAILED_DESC2 : message;
-            if (failToastType == FAIL_TOAST_TYPE_TOAST) {
+            if (settings.getFailToastType() == VolleySettings.FAIL_TOAST_TYPE_TOAST) {
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             } else {
                 showToastDialog("", msg);
@@ -173,7 +128,7 @@ public class RequestCallback<T> {
      * @param result
      */
     public void onMyFailed(String result) {
-        if (failToastType != FAIL_TOAST_TYPE_NULL) {
+        if (settings.getFailToastType() != VolleySettings.FAIL_TOAST_TYPE_NULL) {
             try {
                 String msg = FAILED_DESC3;
                 JSONObject jsonObject = new JSONObject(result);
@@ -181,9 +136,9 @@ public class RequestCallback<T> {
                     msg = jsonObject.getString("desc");
                     msg = TextUtils.isEmpty(msg) ? FAILED_DESC3 : msg;
                 }
-                if (failToastType == FAIL_TOAST_TYPE_TOAST) {
+                if (settings.getFailToastType() == VolleySettings.FAIL_TOAST_TYPE_TOAST) {
                     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                } else if (failToastType == FAIL_TOAST_TYPE_DIALOG) {
+                } else if (settings.getFailToastType() == VolleySettings.FAIL_TOAST_TYPE_DIALOG) {
                     showToastDialog("", msg);
                 }
             } catch (JSONException e) {
@@ -204,7 +159,7 @@ public class RequestCallback<T> {
             try {
                 throw new Exception(ERROR_DESC1);
             } catch (Exception e) {
-                isSafe = false;
+                settings.setSafe(false);
                 e.printStackTrace();
             }
         } else {
@@ -214,6 +169,39 @@ public class RequestCallback<T> {
 
 
     public LinkedHashMap<String, String> getParams() {
+        try {
+//            PhoneInfo phoneInfo = BaseApplication.getInstance().getPhoneInfo();
+//            params.put("APIVersion", phoneInfo.getApiversion());
+//            params.put("Client-Agent", phoneInfo.getClient_agent());
+//            params.put("Client-Type", phoneInfo.getClient_type());
+//            params.put("Client-Version-Type", phoneInfo.getClient_version_type());
+//            params.put("device_id", phoneInfo.getDevice_id());
+//            params.put("test", phoneInfo.getSign());
+//            long rTime = System.currentTimeMillis();
+//            params.put("Rtime", rTime + "");
+//            params.put("copyRightId", phoneInfo.getCopyRightId());
+//            params.put("IMEI", phoneInfo.getImei());
+//
+//            String latitude = CacheUtils.getConstantsCache(context, "latitude");
+//            String longitude = CacheUtils.getConstantsCache(context, "longitude");
+//            if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
+//                params.put("Longitude", longitude);
+//                params.put("Latitude", latitude);
+//            } else {
+//                params.put("Longitude", "0");
+//                params.put("Latitude", "0");
+//            }
+
+//            String sessionId = CacheUtils.getSessionId(context);
+//            if (TextUtils.isEmpty(sessionId)) {
+//                Toast.makeText(context, ERROR_DESC1, Toast.LENGTH_SHORT).show();
+//                throw new Exception(ERROR_DESC1);
+//            } else {
+//                params.put("sessionId", sessionId);
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return params;
     }
 
@@ -227,10 +215,10 @@ public class RequestCallback<T> {
         //设置请求体
         String body = null;
         try {
-            body = URLEncoder.encode(RequestUtils.sign(context, params), "UTF-8");
+            body = URLEncoder.encode(RequestUtils.encrypt(context, params), "UTF-8");
 //            Log.i(LOG_TAG, "URLEncoder格式化后----->" + body);
         } catch (Exception e) {
-            isSafe = false;
+            settings.setSafe(false);
             e.printStackTrace();
         }
         return body;
@@ -254,25 +242,25 @@ public class RequestCallback<T> {
 //                Toast.makeText(context, ERROR_DESC1, Toast.LENGTH_SHORT).show();
 //                throw new Exception(ERROR_DESC1);
 //            } else {
-//                headers.put("access_token", sessionId);
+//                headers.put("token", sessionId);
 //            }
-//
+
 //            String version = GetPhoneInfo.getVersion(context, false);
 //            headers.put("version", version);
-//
-//            String position = "0|0";
-//            String latitude = CacheUtils.getConstantsCache(context, "latitude");
-//            String longitude = CacheUtils.getConstantsCache(context, "longitude");
-//            if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
-//                position = longitude + "|" + latitude;
-//            }
-//            headers.put("position", position);
+
+            String position = "0|0";
+            String latitude = CacheUtils.getConstantsCache(context, "latitude");
+            String longitude = CacheUtils.getConstantsCache(context, "longitude");
+            if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
+                position = longitude + "|" + latitude;
+            }
+            headers.put("position", position);
             headers.put("oUa", RequestUtils.getPhoneInfo(context));
 
             headers.put("Charset", "UTF-8");
             headers.put("Content-Type", "text/xml");
         } catch (Exception e) {
-            isSafe = false;
+            settings.setSafe(false);
             e.printStackTrace();
         }
         return headers;
@@ -290,18 +278,18 @@ public class RequestCallback<T> {
             @Override
             public void onResponse(String response) {
                 if (TextUtils.isEmpty(response)) {
-                    Toast.makeText(context, "获取到的数据为空,请稍后重试!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "获取到的数据为空,请稍后重试!", Toast.LENGTH_SHORT).show();
                     if (errorListener != null)
                         errorListener.onErrorResponse(new VolleyError("响应数据为空!"));
                 } else {
                     try {
-                        response = RequestDataSign.Aes256Decode(response, RequestUtils.key2);
-                        response = URLDecoder.decode(response, "UTF-8");
+//                        response = RequestDataSign.Aes256Decode(response, RequestUtils.key2);
+                        response = URLDecoder.decode(response, "UTF-8").replace("result-code", "result_code");
                         Log.i(LOG_TAG, "请求响应解析后---->" + response);
                         JSONObject jsonObject = new JSONObject(response);
-
-                        if (jsonObject.has("code")) {
-                            String code = jsonObject.getString("code");
+                        JSONObject object = jsonObject.getJSONObject("Response");
+                        if (object.has("result_code")) {
+                            String code = object.getString("result_code");
                             T result;
                             //将response强转成String，如果出现异常则证明T就是String，否则请求数据格式是bean
                             if (clazz.equals(String.class)) {
@@ -313,8 +301,8 @@ public class RequestCallback<T> {
                                 if (rCallbackAgain != null) {
                                     rCallbackAgain.onMySuccess(result);
                                 }
-                                if (allowCache) {
-                                    CacheUtils.saveCache(context, tag, response, useUserId);
+                                if (settings.isAllowCache()) {
+                                    CacheUtils.saveCache(context, settings.getTag(), response, settings.isUseUserId());
                                 }
                                 onMySuccess(result);
                             } else {
@@ -332,8 +320,8 @@ public class RequestCallback<T> {
                     }
                 }
 
-                if (showDialog && progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
+                if (settings.isShowDialog() && settings.getProgressDialog() != null && settings.getProgressDialog().isShowing()) {
+                    settings.getProgressDialog().dismiss();
                 }
                 onMyFinally();
             }
@@ -361,8 +349,8 @@ public class RequestCallback<T> {
                     }
                     onMyError(error);
                 }
-                if (showDialog && progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
+                if (settings.isShowDialog() && settings.getProgressDialog() != null && settings.getProgressDialog().isShowing()) {
+                    settings.getProgressDialog().dismiss();
                 }
                 onMyFinally();
             }
@@ -371,43 +359,8 @@ public class RequestCallback<T> {
     }
 
 
-    public boolean isSafe() {
-        return isSafe;
-    }
-
-    public boolean isAllowCache() {
-        return allowCache;
-    }
-
-    public RequestCallback setAllowCache(boolean allowCache) {
-        this.allowCache = allowCache;
-        return this;
-    }
-
-    public boolean isUseCache() {
-        return useCache;
-    }
-
-    public RequestCallback setUseCache(boolean useCache) {
-        this.useCache = useCache;
-        return this;
-    }
-
-    public boolean isShowDialog() {
-        return showDialog;
-    }
-
-    public RequestCallback showDialog() {
-        return setShowDialog(true, "", "正在加载中...", true);
-    }
-
-    public RequestCallback setShowDialog(boolean showDialog, String title, String message, boolean cacleAble) {
-        if (showDialog) {
-            if (progressDialog == null || (progressDialog != null && !progressDialog.isShowing()))
-                progressDialog = ProgressDialog.show(context, title, message, false, cacleAble);
-        }
-        this.showDialog = showDialog;
-        return this;
+    public VolleySettings showDialog() {
+        return settings.setShowDialog(context, true, "", "正在加载中...", true);
     }
 
     //错误提示dialog消失监听，主要用来触发跳转页面时机
@@ -418,50 +371,23 @@ public class RequestCallback<T> {
         return this;
     }
 
-    @SuppressLint("NewApi")
     private void showToastDialog(String title, String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setCancelable(false);
-        if (errorDialogDismissListener != null)
-            builder.setOnDismissListener(errorDialogDismissListener);
+
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                if (errorDialogDismissListener != null)
+                    errorDialogDismissListener.onDismiss(dialog);
             }
         });
         builder.create().show();
     }
 
-
-    public long getExpirationTime() {
-        return expirationTime;
-    }
-
-    public RequestCallback setExpirationTime(long expirationTime) {
-        this.expirationTime = expirationTime;
-        return this;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public RequestCallback setTag(String tag) {
-        this.tag = tag;
-        return this;
-    }
-
-    public boolean isUseUserId() {
-        return useUserId;
-    }
-
-    public RequestCallback setUseUserId(boolean useUserId) {
-        this.useUserId = useUserId;
-        return this;
-    }
 
     public RequestCallback putParams(String key, String value) {
         if (params != null) {
@@ -470,8 +396,18 @@ public class RequestCallback<T> {
         return this;
     }
 
-    public RequestCallback setFailToastType(int failToastType) {
-        this.failToastType = failToastType;
+
+    public VolleySettings getSettings() {
+        return settings;
+    }
+
+
+    public RequestCallback setUriCmdAction(String uri, String cmd, String action) {
+        if (params != null) {
+            params.put("Action", action);
+            params.put("cmd", cmd);
+        }
+        settings.setUrl("www.5u51.com" + uri);
         return this;
     }
 }

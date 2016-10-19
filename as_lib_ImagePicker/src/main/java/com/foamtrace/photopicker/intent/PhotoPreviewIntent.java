@@ -3,8 +3,8 @@ package com.foamtrace.photopicker.intent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.foamtrace.photopicker.PhotoPickerActivity;
 import com.foamtrace.photopicker.PhotoPreviewActivity;
-import com.foamtrace.photopicker.PhotoPreviewActivity2;
 
 import java.util.ArrayList;
 
@@ -14,8 +14,9 @@ import java.util.ArrayList;
  */
 public class PhotoPreviewIntent extends Intent {
 
-    public PhotoPreviewIntent(Context packageContext, boolean isSelect) {
-        super(packageContext, isSelect ? PhotoPreviewActivity2.class : PhotoPreviewActivity.class);
+    public PhotoPreviewIntent(Context packageContext, boolean isClickImage) {
+        super(packageContext,  PhotoPreviewActivity.class);
+        this.putExtra(PhotoPickerActivity.EXTRA_CLICK_IMAGE,isClickImage);
     }
 
     /**
@@ -33,7 +34,7 @@ public class PhotoPreviewIntent extends Intent {
      * @param paths
      */
     public void setAllPhotoPaths(ArrayList<String> paths) {
-        this.putStringArrayListExtra(PhotoPreviewActivity.EXTRA_ALL_PHOTOS, paths);
+        this.putExtra(PhotoPreviewActivity.EXTRA_ALL_PHOTOS, paths);
     }
 
     /**

@@ -82,7 +82,7 @@ public class FolderAdapter extends BaseAdapter {
 
                     Glide.with(mContext)
                             .load(new File(f.cover.path))
-                            .error(R.mipmap.default_error)
+                            .error(R.drawable.default_error)
                             .override(mImageSize, mImageSize)
                             .centerCrop()
                             .into(holder.cover);
@@ -139,8 +139,8 @@ public class FolderAdapter extends BaseAdapter {
             // 显示图片
             Glide.with(mContext)
                     .load(new File(data.cover.path))
-                    .placeholder(R.mipmap.default_error)
-                    .error(R.mipmap.default_error)
+                    .placeholder(R.drawable.default_error)
+                    .error(R.drawable.default_error)
                     .override(mImageSize, mImageSize)
                     .centerCrop()
                     .into(cover);

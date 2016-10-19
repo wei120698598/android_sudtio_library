@@ -1,24 +1,21 @@
 package com.foamtrace.photopicker;
 
+import java.util.ArrayList;
+
 /**
- * 图片实体
+ * 文件夹
  * Created by Nereo on 2015/4/7.
  */
-public class Image {
-    public String path;
+public class Folder {
     public String name;
-    public long time;
-
-    public Image(String path, String name, long time){
-        this.path = path;
-        this.name = name;
-        this.time = time;
-    }
+    public String path;
+    public Image cover;
+    public ArrayList<Image> images;
 
     @Override
     public boolean equals(Object o) {
         try {
-            Image other = (Image) o;
+            Folder other = (Folder) o;
             return this.path.equalsIgnoreCase(other.path);
         }catch (ClassCastException e){
             e.printStackTrace();

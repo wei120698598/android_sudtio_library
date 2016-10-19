@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:drawableTop="@mipmap/asy"
+        android:drawableTop="@drawable/asy"
         android:drawablePadding="10dp"
         android:layout_gravity="center"
         android:text="拍摄照片"

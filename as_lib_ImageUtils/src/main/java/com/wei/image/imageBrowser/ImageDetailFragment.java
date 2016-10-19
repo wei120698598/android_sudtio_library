@@ -146,7 +146,7 @@ public class ImageDetailFragment extends Fragment {
 				message = "未知的错误";
 				break;
 			}
-			Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
 			progressBar.setVisibility(View.GONE);
 			iv_image_bg.setVisibility(View.GONE);
 		}
