@@ -111,7 +111,8 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoPage
 
             @Override
             public void onPageSelected(int position) {
-                menuItem.setTitle(getString(R.string.done_with_count, selectPaths.size(), mDesireImageCount));
+                if (menuItem != null)
+                    menuItem.setTitle(getString(R.string.done_with_count, selectPaths.size(), mDesireImageCount));
                 if (selectPaths.contains(allPaths.get(position))) {
                     tv_choose.setSelected(true);
                 } else {
@@ -167,7 +168,7 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoPage
         if (isClickImage) {
             menuItem.setIcon(0);
             menuItem.setTitle(getString(R.string.done_with_count, selectPaths.size(), mDesireImageCount));
-        }else{
+        } else {
             menuItem.setTitle("删除");
         }
         return true;

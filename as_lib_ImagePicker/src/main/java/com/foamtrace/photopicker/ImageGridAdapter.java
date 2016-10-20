@@ -1,6 +1,8 @@
 package com.foamtrace.photopicker;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -172,7 +179,6 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
 
-
     @Override
     public long getItemId(int i) {
         return i;
@@ -203,9 +209,9 @@ public class ImageGridAdapter extends BaseAdapter {
             holde.indicator.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   if (mContext instanceof PhotoPickerActivity){
-                       ((PhotoPickerActivity)mContext).selectImageFromGrid(getItem(i), ((PhotoPickerActivity)mContext).getMode());
-                   }
+                    if (mContext instanceof PhotoPickerActivity) {
+                        ((PhotoPickerActivity) mContext).selectImageFromGrid(getItem(i), ((PhotoPickerActivity) mContext).getMode());
+                    }
                 }
             });
         }
@@ -248,7 +254,7 @@ public class ImageGridAdapter extends BaseAdapter {
             } else {
                 indicator.setVisibility(View.GONE);
             }
-            File imageFile = new File(data.path);
+            final File imageFile = new File(data.path);
 
             if (mItemSize > 0) {
                 // 显示图片
@@ -258,7 +264,39 @@ public class ImageGridAdapter extends BaseAdapter {
                         .error(R.drawable.default_error)
                         .override(mItemSize, mItemSize)
                         .centerCrop()
-                        .into(image);
+                        .listener(new RequestListener<File, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, File model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                Log.d("hh",imageFile.getAbsolutePath());
+                                if (mImages.contains(imageFile))
+                                    mImages.remove(imageFile);
+                                if (mSelectedImages.contains(imageFile))
+                                    mSelectedImages.remove(imageFile);
+                                notifyDataSetChanged();
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, File model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                Log.d("xx",imageFile.getAbsolutePath());
+                                return false;
+                            }
+                        })
+                        .into(new GlideDrawableImageViewTarget(image){
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                Log.d("dd",imageFile.getAbsolutePath());
+                            }
+
+                            @Override
+                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+                                super.onResourceReady(resource, animation);
+                                Log.d("gg",imageFile.getAbsolutePath());
+                            }
+                        });
+
+
             }
         }
     }

@@ -77,6 +77,7 @@ public class ImagePickerActivity extends AppCompatActivity {
                 PhotoPreviewIntent intent = new PhotoPreviewIntent(context, true);
                 intent.setCurrentItem(position);
                 intent.setPhotoPaths(imagePaths);
+                intent.setAllPhotoPaths(imagePaths);
                 startActivityForResult(intent, REQUEST_PREVIEW_CODE);
             }
         });

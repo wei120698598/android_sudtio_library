@@ -15,7 +15,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -168,7 +167,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                             selectImageFromGrid(image, mode);
                         } else {
                             PhotoPreviewIntent intent = new PhotoPreviewIntent(mCxt, mIsClickImage);
-                            intent.setCurrentItem(mIsShowCamera ? --i : i);
+                            intent.setCurrentItem(--i);
                             intent.setPhotoPaths(resultList);
                             intent.setAllPhotoPaths(mAllImagePaths);
                             startActivityForResult(intent, PhotoPreviewActivity.REQUEST_PREVIEW);
@@ -181,7 +180,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                         selectImageFromGrid(image, mode);
                     } else {
                         PhotoPreviewIntent intent = new PhotoPreviewIntent(mCxt, mIsClickImage);
-                        intent.setCurrentItem(mIsShowCamera ? --i : i);
+                        intent.setCurrentItem(i);
                         intent.setPhotoPaths(resultList);
                         intent.setAllPhotoPaths(mAllImagePaths);
                         startActivityForResult(intent, PhotoPreviewActivity.REQUEST_PREVIEW);
@@ -363,8 +362,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        Log.d(TAG, "on change");
-
         // 重置列数
         mGridView.setNumColumns(getNumColnums());
         // 重置Item宽度
